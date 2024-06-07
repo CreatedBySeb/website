@@ -1,0 +1,69 @@
+---
+interface Props {
+	title: string;
+}
+
+import Footer from "../components/Footer.astro";
+const { title } = Astro.props;
+---
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>{title} - s&eacute;bastien dunne fulmer</title>
+	</head>
+	<body>
+		<main>
+			<slot />
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style is:global>
+	@font-face {
+		font-family: "Work Sans";
+		src: url("/fonts/worksans.ttf");
+	}
+
+	@font-face {
+		font-family: "Work Sans";
+		src: url("/fonts/worksans-italic.ttf");
+		font-style: italic;
+	}
+
+	html {
+		--bg: #202020;
+		--primary: #07FA39;
+		--thoughts: #FAF019;
+		--games: #E354FC;
+		--projects: #42E5FA;
+
+		--theme: var(--primary);
+
+		background-color: var(--bg);
+		font-family: "Work Sans", sans-serif;
+		font-size: 100%;
+	}
+	
+	body {
+		color: var(--theme);
+		font-size: 1.2rem;
+		margin: 0;
+	}
+
+	a {
+		color: inherit;
+
+		&:active, &:focus, &:hover {
+			background-color: var(--theme);
+			color: var(--bg);
+		}
+	}
+
+	section {
+		margin: 1em auto;
+		max-width: 80rem;
+		padding: 0 2em;
+	}
+</style>

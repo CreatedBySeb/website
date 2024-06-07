@@ -1,16 +1,81 @@
 ---
+import ExternalLink from "../components/ExternalLink.astro"
+import Layout from "../layouts/Layout.astro"
 
+const gwrLink = "https://www.tcd.ie/news_events/articles/2023/the-hist-wins-guinness-world-record-for-longest-debate/",
+	stormontLink = "https://www.youtube.com/watch?v=hdEQnLnAryU";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="about">
+	<section>
+		<h1>s&eacute;bastien dunne fulmer</h1>
+		<ul class="tagline">
+			<li>computer engineering masters @ TCD</li>
+			<li>game jammer</li>
+			<li><ExternalLink href={gwrLink}>guinness world record holder</ExternalLink></li>
+			<li>debater & public speaker</li>
+			<li>trinity legacy award recipient</li>
+			<li>ex-auditor of the Hist</li>
+			<li>built the Tabtastic debate platform</li>
+			<li>aspiring chef</li>
+		</ul>
+	</section>
+
+	<section>
+		<nav class="large-nav">
+			<ul>
+				<li style="--theme: var(--thoughts)">
+					<a href="#">thoughts/</a>
+				</li>
+				<li style="--theme: var(--projects)">
+					<a href="#">projects/</a>
+				</li>
+				<li style="--theme: var(--games)">
+					<a href="#">games/</a>
+				</li>
+			</ul>
+		</nav>
+	</section>
+
+	<section>
+		<h2>a bit about me</h2>
+		<p>I am an Irish-Canadian engineer, game jammer, debater and aspiring chef.</p>
+		
+		<p>I have recently finished my integrated masters in computer engineering at Trinity College Dublin in Ireland, and I am currently spending my summer working on hobby projects, entering game jams and honing my cooking skills before I re-enter the world of work. During my time at Trinity I spent a considerable amount of time in the College Historical Society (the Hist), Trinity's debating society and the oldest student society in the world (inspiring and helping set up the Cambridge and Oxford unions), where I was the Auditor (chairperson) during my 4th year of college.</p>
+		
+		<p>While in Trinity, I won the Trinity Legacy Award for my work improving accessibility on campus, <ExternalLink href={gwrLink}>set a world record for the longest marathon debate with the Hist</ExternalLink>, <ExternalLink href={stormontLink}>represented Trinity in a debate at the Northern Irish Assembly in Stormont</ExternalLink>, helped organise the 2023 World Universities Debating Championships in Madrid, and built my own Software-as-a-Service platform for running debate competitions, Tabtastic.</p>
+		
+		<p>I also completed two internships as a Systems Development Engineer at Amazon in Dublin with the Intelligent Cloud Hosting (ICON) team, which is responsible for managing the infrastructure that powers Amazon's retail website.</p>
+	</section>
+</Layout>
+
+<style>
+	h1 {
+		font-size: 3em;
+		margin: .25em 0;
+	}
+
+	ul.tagline {
+		display: flex;
+		flex-wrap: wrap;
+		gap: .5em 1.5em;
+		padding: 0;
+
+		& > li {
+			list-style: none;
+		}
+	}
+
+	nav.large-nav {
+		& > ul {
+			font-size: 2em;
+			padding: 0;
+
+			& > li {
+				color: var(--theme);
+				list-style: none;
+				margin: .2em 0;
+			}
+		}
+	}
+</style>
