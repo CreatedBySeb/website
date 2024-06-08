@@ -1,10 +1,12 @@
 ---
 interface Props {
+	hideNav?: boolean;
 	title: string;
 }
 
 import Footer from "../components/Footer.astro";
-const { title } = Astro.props;
+import Header from "../components/Header.astro";
+const { hideNav, title } = Astro.props;
 ---
 <html lang="en">
 	<head>
@@ -13,6 +15,7 @@ const { title } = Astro.props;
 		<title>{title} - s&eacute;bastien dunne fulmer</title>
 	</head>
 	<body>
+		{ (!hideNav) ? <Header /> : undefined }
 		<main>
 			<slot />
 		</main>
@@ -45,7 +48,7 @@ const { title } = Astro.props;
 		font-family: "Work Sans", sans-serif;
 		font-size: 100%;
 	}
-	
+
 	body {
 		color: var(--theme);
 		font-size: 1.2rem;

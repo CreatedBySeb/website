@@ -1,0 +1,33 @@
+<header>
+	<a href="/">s&eacute;bastien dunne fulmer</a>
+
+	<nav>
+		<ul>
+			<li style="--theme: var(--thoughts)"><a href="#">/thoughts</a></li>
+			<li style="--theme: var(--projects)"><a href="#">/projects</a></li>
+			<li style="--theme: var(--games)"><a href="#">/games</a></li>
+		</ul>
+	</nav>
+</header>
+
+<style>
+	header {
+		display: flex;
+		gap: .5em;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		margin: 1em 1em 2em 1em;
+
+		& > nav > ul {
+			display: flex;
+			gap: .5em;
+			margin: 0;
+			padding: 0;
+
+			& > li {
+				color: var(--theme);
+				list-style: none;
+			}
+		}
+	}
+</style>
