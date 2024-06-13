@@ -1,0 +1,55 @@
+---
+import { getCollection } from "astro:content";
+import ExternalLink from "@components/ExternalLink.astro";
+import Layout from "@layouts/Layout.astro";
+
+const games = (await getCollection("games"))
+	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<Layout title="games">
+	<section>
+		<h1>games</h1>
+
+		{
+			games.map((game) => (
+				<article>
+					<h2><a href={"/games/" + game.slug}>{ game.data.name }</a></h2>
+					<div class="game-details">
+						<p>{ game.data.tech.join(", ") }</p>
+						{ (game.data.jam) ?
+							<ExternalLink href={game.data.jam.link}>{ game.data.jam.name }</ExternalLink>
+							: undefined
+						}
+					</div>
+					<p>{ game.data.tagline }</p>
+				</article>
+			))
+		}
+	</section>
+</Layout>
+
+<style>
+	body {
+		--theme: var(--games);
+	}
+
+	article {
+		margin: 3em 0;
+
+		& h2 {
+			margin-bottom: .25em;
+		}
+
+		& .game-details {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0 1em;
+			margin: .25em 0;
+
+			& > p {
+				margin: 0;
+			}
+		}
+	}
+</style>

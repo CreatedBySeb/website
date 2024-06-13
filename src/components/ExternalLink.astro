@@ -1,9 +1,9 @@
 ---
-interface Props {
+interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
 	href: string;
 }
 
-const { href } = Astro.props;
+const { href, ...props } = Astro.props;
 ---
 
-<a href={href} target="_blank" rel="noopener"><slot /></a>
+<a href={href} target="_blank" rel="noopener" {...props}><slot /></a>

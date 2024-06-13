@@ -1,6 +1,6 @@
 ---
-import ExternalLink from "../components/ExternalLink.astro"
-import Layout from "../layouts/Layout.astro"
+import ExternalLink from "@components/ExternalLink.astro"
+import Layout from "@layouts/Layout.astro"
 
 const gwrLink = "https://www.tcd.ie/news_events/articles/2023/the-hist-wins-guinness-world-record-for-longest-debate/",
 	stormontLink = "https://www.youtube.com/watch?v=hdEQnLnAryU";
@@ -31,7 +31,7 @@ const gwrLink = "https://www.tcd.ie/news_events/articles/2023/the-hist-wins-guin
 					<a href="#">projects/</a>
 				</li>
 				<li style="--theme: var(--games)">
-					<a href="#">games/</a>
+					<a href="/games">games/</a>
 				</li>
 			</ul>
 		</nav>
@@ -40,11 +40,11 @@ const gwrLink = "https://www.tcd.ie/news_events/articles/2023/the-hist-wins-guin
 	<section>
 		<h2>a bit about me</h2>
 		<p>I am an Irish-Canadian engineer, game jammer, debater and aspiring chef.</p>
-		
+
 		<p>I have recently finished my integrated masters in computer engineering at Trinity College Dublin in Ireland, and I am currently spending my summer working on hobby projects, entering game jams and honing my cooking skills before I re-enter the world of work. During my time at Trinity I spent a considerable amount of time in the College Historical Society (the Hist), Trinity's debating society and the oldest student society in the world (inspiring and helping set up the Cambridge and Oxford unions), where I was the Auditor (chairperson) during my 4th year of college.</p>
-		
+
 		<p>While in Trinity, I won the Trinity Legacy Award for my work improving accessibility on campus, <ExternalLink href={gwrLink}>set a world record for the longest marathon debate with the Hist</ExternalLink>, <ExternalLink href={stormontLink}>represented Trinity in a debate at the Northern Irish Assembly in Stormont</ExternalLink>, helped organise the 2023 World Universities Debating Championships in Madrid, and built my own Software-as-a-Service platform for running debate competitions, Tabtastic.</p>
-		
+
 		<p>I also completed two internships as a Systems Development Engineer at Amazon in Dublin with the Intelligent Cloud Hosting (ICON) team, which is responsible for managing the infrastructure that powers Amazon's retail website.</p>
 	</section>
 </Layout>
