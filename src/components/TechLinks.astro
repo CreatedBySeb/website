@@ -1,0 +1,21 @@
+---
+import { slugify } from '@lib/util';
+
+interface Props {
+	techs: string[];
+}
+
+const { techs } = Astro.props;
+---
+
+{
+	techs.map((tech, i) => {
+		const els = [<a href={`/techs/${slugify(tech)}`}>{ tech }</a>];
+
+		if (i === techs.length - 2) els.push(" & ");
+		else if (i < techs.length - 1) els.push(", ");
+
+		return els;
+	})
+}
+

@@ -1,0 +1,66 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { slugify } from "@lib/util";
+import type { GetStaticPaths } from "astro";
+import type { ContentEntryMap, Flatten } from "astro:content";
+import { getCollection } from "astro:content";
+
+type ContentItem = Flatten<ContentEntryMap["games" | "projects"]>;
+
+export const getStaticPaths = (async () => {
+	const techs = new Map<string, ContentItem[]>(),
+		techNames: Record<string, string> = {};
+
+	const collections = await Promise.all([
+		getCollection("games"),
+		getCollection("projects"),
+	]);
+
+	collections.flat().forEach((item) => {
+		item.data.tech.forEach((tech) => {
+			const slug = slugify(tech);
+			techNames[slug] = tech;
+
+			const arr = techs.get(slug) ?? [];
+			techs.set(slug, [...arr, item]);
+		});
+	});
+
+	return Array.from(techs).map(([slug, items]) => ({
+		params: { slug },
+		props: {
+			items: items.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()),
+			tech: techNames[slug] ?? slug,
+		},
+	}));
+}) satisfies GetStaticPaths;
+
+const { items, tech } = Astro.props;
+---
+
+<Layout title={`tech: ${tech}`}>
+	<section>
+		<h1>tech: { tech }</h1>
+		{ items.map((item) => (
+			<article style={`--theme: var(--${item.collection})`}>
+				<h2>{ item.collection } / <a href={`/${item.collection}/${item.slug}`}>{ item.data.name }</a></h2>
+				<p>{ item.data.tagline }</p>
+			</article>
+		)) }
+	</section>
+</Layout>
+
+<style>
+	article {
+		color: var(--theme);
+		margin: 3em 0;
+
+		& h2 {
+			margin-bottom: .25em;
+		}
+
+        & p {
+            margin: .25em 0;
+        }
+	}
+</style>

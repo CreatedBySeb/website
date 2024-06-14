@@ -1,9 +1,9 @@
 ---
+import ExternalLink from "@components/ExternalLink.astro";
+import TechLinks from "@components/TechLinks.astro";
+import Layout from "@layouts/Layout.astro";
 import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
-import ExternalLink from "@components/ExternalLink.astro";
-import Layout from "@layouts/Layout.astro";
-import { ampersandJoin } from "@lib/util";
 
 export const getStaticPaths = (async () => {
 	const projects = await getCollection("projects");
@@ -22,7 +22,7 @@ const { Content } = await projectPage.render();
 	<section>
 		<a href="/projects">back to projects</a>
 		<h1>{ projectPage.data.name } { projectPage.data.link ? <ExternalLink class="button" href={projectPage.data.link.url}>{ projectPage.data.link.name }</ExternalLink> : undefined }</h1>
-		<p>Made using { ampersandJoin(projectPage.data.tech) }</p>
+		<p>Made with <TechLinks techs={projectPage.data.tech} /></p>
 
 		<Content />
 	</section>

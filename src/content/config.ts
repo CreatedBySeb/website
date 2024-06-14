@@ -27,7 +27,7 @@ const projectsCollection = defineCollection({
         tech: z.string().array(),
         date: z.date(),
     }),
-})
+});
 
 export const collections = {
     games: gamesCollection,

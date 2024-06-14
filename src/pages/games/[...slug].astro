@@ -1,9 +1,9 @@
 ---
+import ExternalLink from "@components/ExternalLink.astro";
+import TechLinks from "@components/TechLinks.astro";
+import Layout from "@layouts/Layout.astro";
 import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
-import ExternalLink from "@components/ExternalLink.astro";
-import Layout from "@layouts/Layout.astro";
-import { ampersandJoin } from "@lib/util";
 
 export const getStaticPaths = (async () => {
 	const games = await getCollection("games");
@@ -22,7 +22,7 @@ const { Content } = await gamePage.render();
 	<section>
 		<a href="/games">back to games</a>
 		<h1>{ gamePage.data.name } { gamePage.data.link ? <ExternalLink class="button" href={gamePage.data.link}>Play</ExternalLink> : undefined }</h1>
-		<p>Made using { ampersandJoin(gamePage.data.tech) }{ gamePage.data.jam ? <span> for the <ExternalLink href={gamePage.data.jam.link}>{ gamePage.data.jam.name }</ExternalLink></span> : undefined }</p>
+		<p>Made with <TechLinks techs={gamePage.data.tech} />{ gamePage.data.jam ? <span> for the <ExternalLink href={gamePage.data.jam.link}>{ gamePage.data.jam.name }</ExternalLink></span> : undefined }</p>
 
 		<Content />
 	</section>
