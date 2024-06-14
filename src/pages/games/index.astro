@@ -1,5 +1,4 @@
 ---
-import ExternalLink from "@components/ExternalLink.astro";
 import TechLinks from "@components/TechLinks.astro";
 import Layout from "@layouts/Layout.astro";
 import { getCollection } from "astro:content";
@@ -19,7 +18,7 @@ const games = (await getCollection("games"))
 					<div class="game-details">
 						<p><TechLinks techs={game.data.tech} /></p>
 						{ (game.data.jam) ?
-							<ExternalLink href={game.data.jam.link}>{ game.data.jam.name }</ExternalLink>
+							<a href={game.data.jam.link}>{ game.data.jam.name }</a>
 							: undefined
 						}
 					</div>

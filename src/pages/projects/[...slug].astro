@@ -1,5 +1,4 @@
 ---
-import ExternalLink from "@components/ExternalLink.astro";
 import TechLinks from "@components/TechLinks.astro";
 import Layout from "@layouts/Layout.astro";
 import type { GetStaticPaths } from "astro";
@@ -21,7 +20,7 @@ const { Content } = await projectPage.render();
 <Layout title={projectPage.data.name}>
 	<section>
 		<a href="/projects">back to projects</a>
-		<h1>{ projectPage.data.name } { projectPage.data.link ? <ExternalLink class="button" href={projectPage.data.link.url}>{ projectPage.data.link.name }</ExternalLink> : undefined }</h1>
+		<h1>{ projectPage.data.name } { projectPage.data.link ? <a class="button" href={projectPage.data.link.url}>{ projectPage.data.link.name }</a> : undefined }</h1>
 		<p>Made with <TechLinks techs={projectPage.data.tech} /></p>
 
 		<Content />

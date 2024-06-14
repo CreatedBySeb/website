@@ -1,5 +1,4 @@
 ---
-import ExternalLink from "@components/ExternalLink.astro";
 import TechLinks from "@components/TechLinks.astro";
 import Layout from "@layouts/Layout.astro";
 import type { GetStaticPaths } from "astro";
@@ -21,8 +20,8 @@ const { Content } = await gamePage.render();
 <Layout title={gamePage.data.name}>
 	<section>
 		<a href="/games">back to games</a>
-		<h1>{ gamePage.data.name } { gamePage.data.link ? <ExternalLink class="button" href={gamePage.data.link}>Play</ExternalLink> : undefined }</h1>
-		<p>Made with <TechLinks techs={gamePage.data.tech} />{ gamePage.data.jam ? <span> for the <ExternalLink href={gamePage.data.jam.link}>{ gamePage.data.jam.name }</ExternalLink></span> : undefined }</p>
+		<h1>{ gamePage.data.name } { gamePage.data.link ? <a class="button" href={gamePage.data.link}>Play</a> : undefined }</h1>
+		<p>Made with <TechLinks techs={gamePage.data.tech} />{ gamePage.data.jam ? <span> for the <a href={gamePage.data.jam.link}>{ gamePage.data.jam.name }</a></span> : undefined }</p>
 
 		<Content />
 	</section>
