@@ -15,6 +15,21 @@ const gamesCollection = defineCollection({
     }),
 });
 
+const projectsCollection = defineCollection({
+    type: "content",
+    schema: () => z.object({
+        name: z.string(),
+        link: z.object({
+			name: z.string(),
+			url: z.string(),
+		}).optional(),
+        tagline: z.string(),
+        tech: z.string().array(),
+        date: z.date(),
+    }),
+})
+
 export const collections = {
     games: gamesCollection,
+    projects: projectsCollection,
 };

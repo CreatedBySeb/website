@@ -1,0 +1,41 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+
+const projects = (await getCollection("projects"))
+	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<Layout title="projects">
+	<section>
+		<h1>projects</h1>
+
+		{
+			projects.map((project) => (
+				<article>
+					<h2><a href={"/projects/" + project.slug}>{ project.data.name }</a></h2>
+                    <p>{ project.data.tech.join(", ") }</p>
+					<p>{ project.data.tagline }</p>
+				</article>
+			))
+		}
+	</section>
+</Layout>
+
+<style>
+	body {
+		--theme: var(--projects);
+	}
+
+	article {
+		margin: 3em 0;
+
+		& h2 {
+			margin-bottom: .25em;
+		}
+
+        & p {
+            margin: .25em 0;
+        }
+	}
+</style>

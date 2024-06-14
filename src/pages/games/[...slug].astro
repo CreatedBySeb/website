@@ -3,6 +3,7 @@ import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 import ExternalLink from "@components/ExternalLink.astro";
 import Layout from "@layouts/Layout.astro";
+import { ampersandJoin } from "@lib/util";
 
 export const getStaticPaths = (async () => {
 	const games = await getCollection("games");
@@ -15,11 +16,6 @@ export const getStaticPaths = (async () => {
 
 const { gamePage } = Astro.props;
 const { Content } = await gamePage.render();
-
-function ampersandJoin(array: string[]): string {
-	if (array.length === 1) return array.join("");
-	else return array.slice(0, -1).join(", ") + " & " + array[array.length - 1];
-}
 ---
 
 <Layout title={gamePage.data.name}>

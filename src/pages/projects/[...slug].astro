@@ -1,0 +1,44 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import ExternalLink from "@components/ExternalLink.astro";
+import Layout from "@layouts/Layout.astro";
+import { ampersandJoin } from "@lib/util";
+
+export const getStaticPaths = (async () => {
+	const projects = await getCollection("projects");
+
+	return projects.map((projectPage) => ({
+		params: { slug: projectPage.slug },
+		props: { projectPage },
+	}));
+}) satisfies GetStaticPaths;
+
+const { projectPage } = Astro.props;
+const { Content } = await projectPage.render();
+---
+
+<Layout title={projectPage.data.name}>
+	<section>
+		<a href="/projects">back to projects</a>
+		<h1>{ projectPage.data.name } { projectPage.data.link ? <ExternalLink class="button" href={projectPage.data.link.url}>{ projectPage.data.link.name }</ExternalLink> : undefined }</h1>
+		<p>Made using { ampersandJoin(projectPage.data.tech) }</p>
+
+		<Content />
+	</section>
+</Layout>
+
+<style>
+	body {
+		--theme: var(--projects);
+	}
+
+	iframe {
+		border: none;
+	}
+
+	h1 .button {
+		font-size: 1.25rem;
+		margin-left: .5em;
+	}
+</style>
