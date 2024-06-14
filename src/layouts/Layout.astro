@@ -64,15 +64,27 @@ const { hideNav, title } = Astro.props;
 		}
 	}
 
+	section {
+		margin: 1em auto;
+		max-width: 80rem;
+		padding: 0 2em;
+	}
+
 	a.button, button.button {
 		border: .1em solid var(--theme);
 		border-radius: .25em;
 		padding: .25em .5em;
 	}
 
-	section {
-		margin: 1em auto;
-		max-width: 80rem;
-		padding: 0 2em;
+	article.content-item {
+		margin: 3em 0;
+
+		& h2 {
+			margin-bottom: .25em;
+		}
+
+        & p {
+            margin: .25em 0;
+        }
 	}
 </style>

@@ -14,7 +14,7 @@ const games = (await getCollection("games"))
 
 		{
 			games.map((game) => (
-				<article>
+				<article class="content-item">
 					<h2><a href={"/games/" + game.slug}>{ game.data.name }</a></h2>
 					<div class="game-details">
 						<p><TechLinks techs={game.data.tech} /></p>
@@ -36,12 +36,6 @@ const games = (await getCollection("games"))
 	}
 
 	article {
-		margin: 3em 0;
-
-		& h2 {
-			margin-bottom: .25em;
-		}
-
 		& .game-details {
 			display: flex;
 			flex-wrap: wrap;

@@ -1,0 +1,43 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { dateFormatter } from "@lib/util";
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+
+export const getStaticPaths = (async () => {
+	const thoughts = await getCollection("thoughts");
+
+	return thoughts.map((postPage) => ({
+		params: { slug: postPage.slug },
+		props: { postPage },
+	}));
+}) satisfies GetStaticPaths;
+
+const { postPage } = Astro.props;
+const { Content } = await postPage.render();
+---
+
+<Layout title={postPage.data.title}>
+	<section>
+		<a href="/thoughts">back to thoughts</a>
+		<h1>{ postPage.data.title }</h1>
+		<p>{ dateFormatter.format(postPage.data.date) }</p>
+
+		<Content />
+	</section>
+</Layout>
+
+<style>
+	body {
+		--theme: var(--thoughts);
+	}
+
+	iframe {
+		border: none;
+	}
+
+	h1 .button {
+		font-size: 1.25rem;
+		margin-left: .5em;
+	}
+</style>

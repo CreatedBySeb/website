@@ -1,0 +1,29 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { dateFormatter } from "@lib/util";
+import { getCollection } from "astro:content";
+
+const thoughts = (await getCollection("thoughts"))
+	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<Layout title="thoughts">
+	<section>
+		<h1>thoughts</h1>
+
+		{
+			thoughts.map((post) => {
+				return <article class="content-item">
+					<h2><a href={"/thoughts/" + post.slug}>{ post.data.title }</a></h2>
+					<p>{ dateFormatter.format(post.data.date) }</p>
+				</article>
+			})
+		}
+	</section>
+</Layout>
+
+<style>
+	body {
+		--theme: var(--thoughts);
+	}
+</style>

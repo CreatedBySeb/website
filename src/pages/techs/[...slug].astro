@@ -42,7 +42,7 @@ const { items, tech } = Astro.props;
 	<section>
 		<h1>tech: { tech }</h1>
 		{ items.map((item) => (
-			<article style={`--theme: var(--${item.collection})`}>
+			<article class="content-item" style={`--theme: var(--${item.collection})`}>
 				<h2>{ item.collection } / <a href={`/${item.collection}/${item.slug}`}>{ item.data.name }</a></h2>
 				<p>{ item.data.tagline }</p>
 			</article>
@@ -53,14 +53,5 @@ const { items, tech } = Astro.props;
 <style>
 	article {
 		color: var(--theme);
-		margin: 3em 0;
-
-		& h2 {
-			margin-bottom: .25em;
-		}
-
-        & p {
-            margin: .25em 0;
-        }
 	}
 </style>
