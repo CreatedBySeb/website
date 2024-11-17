@@ -12,6 +12,9 @@ const thoughts = (await getCollection("thoughts"))
 		<h1>thoughts</h1>
 
 		{
+			(!thoughts.length) ? <p>no thoughts just yet, check back soon</p> : undefined
+		}
+		{
 			thoughts.map((post) => {
 				return <article class="content-item">
 					<h2><a href={"/thoughts/" + post.slug}>{ post.data.title }</a></h2>
