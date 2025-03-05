@@ -2,10 +2,10 @@
 import Layout from "@layouts/Layout.astro";
 import { slugify } from "@lib/util";
 import type { GetStaticPaths } from "astro";
-import type { ContentEntryMap, Flatten } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 
-type ContentItem = Flatten<ContentEntryMap["games" | "projects"]>;
+type ContentItem = CollectionEntry<"games"> | CollectionEntry<"projects">;
 
 export const getStaticPaths = (async () => {
 	const techs = new Map<string, ContentItem[]>(),
@@ -43,7 +43,7 @@ const { items, tech } = Astro.props;
 		<h1>tech: { tech }</h1>
 		{ items.map((item) => (
 			<article class="content-item" style={`--theme: var(--${item.collection})`}>
-				<h2>{ item.collection } / <a href={`/${item.collection}/${item.slug}`}>{ item.data.name }</a></h2>
+				<h2>{ item.collection } / <a href={`/${item.collection}/${item.id}`}>{ item.data.name }</a></h2>
 				<p>{ item.data.tagline }</p>
 			</article>
 		)) }

@@ -2,19 +2,19 @@
 import Layout from "@layouts/Layout.astro";
 import { dateFormatter } from "@lib/util";
 import type { GetStaticPaths } from "astro";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 
 export const getStaticPaths = (async () => {
 	const thoughts = await getCollection("thoughts");
 
 	return thoughts.map((postPage) => ({
-		params: { slug: postPage.slug },
+		params: { slug: postPage.id },
 		props: { postPage },
 	}));
 }) satisfies GetStaticPaths;
 
 const { postPage } = Astro.props;
-const { Content } = await postPage.render();
+const { Content } = await render(postPage);
 ---
 
 <Layout title={postPage.data.title}>
