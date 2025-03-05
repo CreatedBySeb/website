@@ -1,0 +1,21 @@
+name: Test Build
+
+on:
+  push:
+    branches-ignore: [ main ]
+  pull_request_target:
+    types: [ assigned, opened, reopened, synchronize ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        uses: withastro/action@v3
+        with:
+          package-manager: pnpm@latest
