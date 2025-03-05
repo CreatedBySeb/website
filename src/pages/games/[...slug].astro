@@ -2,19 +2,19 @@
 import TechLinks from "@components/TechLinks.astro";
 import Layout from "@layouts/Layout.astro";
 import type { GetStaticPaths } from "astro";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 
 export const getStaticPaths = (async () => {
 	const games = await getCollection("games");
 
 	return games.map((gamePage) => ({
-		params: { slug: gamePage.slug },
+		params: { slug: gamePage.id },
 		props: { gamePage },
 	}));
 }) satisfies GetStaticPaths;
 
 const { gamePage } = Astro.props;
-const { Content } = await gamePage.render();
+const { Content } = await render(gamePage);
 ---
 
 <Layout title={gamePage.data.name}>
