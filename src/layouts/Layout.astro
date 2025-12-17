@@ -87,4 +87,12 @@ const { hideNav, title } = Astro.props;
             margin: .25em 0;
         }
 	}
+
+	[data-icon] {
+		font-size: 1.4rem;
+	}
+
+	:is(h1, h2, h3, h4, h5, h6, p) [data-icon] {
+		vertical-align: top;
+	}
 </style>

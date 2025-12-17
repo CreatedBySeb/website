@@ -1,0 +1,42 @@
+---
+import { Icon } from "astro-icon/components";
+
+type BoxType = "note";
+
+interface Props {
+	title: string;
+	type?: BoxType;
+}
+
+const {title, type = "note"} = Astro.props;
+---
+
+<div data-box-type={type}>
+	<h6><Icon name="tabler:info-circle" /> {title}</h6>
+	<slot />
+</div>
+
+<style>
+	div {
+		border-left: solid .5rem;
+		box-sizing: border-box;
+		font-size: 1.1rem;
+		margin: 1rem 0;
+		padding: 1rem;
+	}
+
+	div[data-box-type=note] {
+		background-color: #0D47A1;
+		border-color: #1976D2;
+		color: #BBDEFB;
+	}
+
+	h6 {
+		font-size: 1em;
+		margin: 0 0 0.5rem 0;
+	}
+
+	div :global(p) {
+		margin: 0.5rem 0 0 0;
+	}
+</style>
