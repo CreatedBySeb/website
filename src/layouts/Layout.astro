@@ -1,19 +1,38 @@
 ---
 interface Props {
+	description?: string;
 	hideNav?: boolean;
 	title: string;
 }
 
 import Footer from "@components/Footer.astro";
 import Header from "@components/Header.astro";
-const { hideNav, title } = Astro.props;
+
+const { description, hideNav, title } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL("opengraph.png", Astro.site);
 ---
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
+
 		<title>{title} - s&eacute;bastien dunne fulmer</title>
 		<link rel="sitemap" href="/sitemap-index.xml" />
+		<link rel="canonical" href={canonicalURL} />
+		{ (description) ? <meta name="description" content={description} /> : undefined }
+
+		{/* OpenGraph metadata */}
+		<meta property="og:title" content={title} />
+		<meta property="og:type" content="website" />
+		<meta property="og:image" content={ogImageURL} />
+		<meta property="og:image:alt" content="sébastien dunne fulmer" />
+		<meta property="og:image:type" content="image/png" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:site_name" content="sébastien dunne fulmer" />
+		<meta property="og:locale" content="en_GB" />
+		{ (description) ? <meta property="og:description" content={description} /> : undefined}
 	</head>
 	<body>
 		{ (!hideNav) ? <Header /> : undefined }
