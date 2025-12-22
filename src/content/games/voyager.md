@@ -1,8 +1,8 @@
 ---
-name: "Voyager"
+title: "Voyager"
 link: "https://createdbyseb.itch.io/voyager"
 jam: { name: "Kenney Jam 2023", link: "https://itch.io/jam/kenney-jam-2023/rate/2184360" }
-tagline: "Space exploration and resource management game where you support different planets and help them thrive"
+description: "Space exploration and resource management game where you support different planets and help them thrive"
 tech: ["Unity", "C#"]
 date: 2023-07-23
 ---

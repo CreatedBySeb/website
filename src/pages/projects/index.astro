@@ -14,9 +14,9 @@ const projects = (await getCollection("projects"))
 		{
 			projects.map((project) => (
 				<article class="content-item">
-					<h2><a href={"/projects/" + project.id}>{ project.data.name }</a></h2>
+					<h2><a href={"/projects/" + project.id}>{ project.data.title }</a></h2>
                     <p><TechLinks techs={project.data.tech}/></p>
-					<p>{ project.data.tagline }</p>
+					<p>{ project.data.description }</p>
 				</article>
 			))
 		}

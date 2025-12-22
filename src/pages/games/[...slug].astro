@@ -17,10 +17,10 @@ const { gamePage } = Astro.props;
 const { Content } = await render(gamePage);
 ---
 
-<Layout title={gamePage.data.name}>
+<Layout title={gamePage.data.title}>
 	<section>
 		<a href="/games">back to games</a>
-		<h1>{ gamePage.data.name } { gamePage.data.link ? <a class="button" href={gamePage.data.link}>Play</a> : undefined }</h1>
+		<h1>{ gamePage.data.title } { gamePage.data.link ? <a class="button" href={gamePage.data.link}>Play</a> : undefined }</h1>
 		<p>Made with <TechLinks techs={gamePage.data.tech} />{ gamePage.data.jam ? <span> for the <a href={gamePage.data.jam.link}>{ gamePage.data.jam.name }</a></span> : undefined }</p>
 
 		<Content />

@@ -14,7 +14,7 @@ const games = (await getCollection("games"))
 		{
 			games.map((game) => (
 				<article class="content-item">
-					<h2><a href={"/games/" + game.id}>{ game.data.name }</a></h2>
+					<h2><a href={"/games/" + game.id}>{ game.data.title }</a></h2>
 					<div class="game-details">
 						<p><TechLinks techs={game.data.tech} /></p>
 						{ (game.data.jam) ?
@@ -22,7 +22,7 @@ const games = (await getCollection("games"))
 							: undefined
 						}
 					</div>
-					<p>{ game.data.tagline }</p>
+					<p>{ game.data.description }</p>
 				</article>
 			))
 		}

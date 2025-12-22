@@ -17,10 +17,10 @@ const { projectPage } = Astro.props;
 const { Content } = await render(projectPage);
 ---
 
-<Layout title={projectPage.data.name}>
+<Layout title={projectPage.data.title}>
 	<section>
 		<a href="/projects">back to projects</a>
-		<h1>{ projectPage.data.name } { projectPage.data.link ? <a class="button" href={projectPage.data.link.url}>{ projectPage.data.link.name }</a> : undefined }</h1>
+		<h1>{ projectPage.data.title } { projectPage.data.link ? <a class="button" href={projectPage.data.link.url}>{ projectPage.data.link.name }</a> : undefined }</h1>
 		<p>Made with <TechLinks techs={projectPage.data.tech} /></p>
 
 		<Content />

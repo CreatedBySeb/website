@@ -19,6 +19,7 @@ const thoughts = (await getCollection("thoughts"))
 				return <article class="content-item">
 					<h2><a href={"/thoughts/" + post.id}>{ post.data.title }</a></h2>
 					<p>{ dateFormatter.format(post.data.date) }</p>
+					<p>{ post.data.description }</p>
 				</article>
 			})
 		}

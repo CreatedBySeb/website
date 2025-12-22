@@ -1,7 +1,7 @@
 ---
-name: "Tabtastic"
+title: "Tabtastic"
 link: { name: "Visit", url: "https://tabtastic.net" }
-tagline: "Software-as-a-Service platform for running debating competitions"
+description: "Software-as-a-Service platform for running debating competitions"
 tech: ["Vue.js", "TypeScript", "Node.js", "Sass"]
 date: 2020-09-01
 ---
