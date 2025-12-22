@@ -1,6 +1,6 @@
 ---
-import Layout from "@layouts/Layout.astro";
-import { dateFormatter } from "@lib/util";
+import Layout, { type Meta } from "@layouts/Layout.astro";
+import { dateFormatter, toISODate } from "@lib/util";
 import type { GetStaticPaths } from "astro";
 import { getCollection, render } from "astro:content";
 
@@ -15,9 +15,15 @@ export const getStaticPaths = (async () => {
 
 const { postPage } = Astro.props;
 const { Content } = await render(postPage);
+
+const meta: Meta = {
+	date: toISODate(postPage.data.date),
+	description: postPage.data.description,
+	section: "thoughts",
+}
 ---
 
-<Layout title={postPage.data.title}>
+<Layout title={postPage.data.title} meta={meta}>
 	<section>
 		<a href="/thoughts">back to thoughts</a>
 		<h1>{ postPage.data.title }</h1>

@@ -1,6 +1,7 @@
 ---
 import TechLinks from "@components/TechLinks.astro";
-import Layout from "@layouts/Layout.astro";
+import Layout, { type Meta } from "@layouts/Layout.astro";
+import { toISODate } from "@lib/util";
 import type { GetStaticPaths } from "astro";
 import { getCollection, render } from "astro:content";
 
@@ -15,9 +16,15 @@ export const getStaticPaths = (async () => {
 
 const { gamePage } = Astro.props;
 const { Content } = await render(gamePage);
+
+const meta: Meta = {
+	date: toISODate(gamePage.data.date),
+	description: gamePage.data.description,
+	section: "games",
+};
 ---
 
-<Layout title={gamePage.data.title}>
+<Layout title={gamePage.data.title} meta={meta}>
 	<section>
 		<a href="/games">back to games</a>
 		<h1>{ gamePage.data.title } { gamePage.data.link ? <a class="button" href={gamePage.data.link}>Play</a> : undefined }</h1>

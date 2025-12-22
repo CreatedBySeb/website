@@ -1,17 +1,31 @@
 ---
-interface Props {
+export interface Meta {
+	date?: string;
 	description?: string;
+	section?: CollectionKey;
+}
+
+interface Props {
 	hideNav?: boolean;
+	meta?: Meta;
 	title: string;
 }
 
 import Footer from "@components/Footer.astro";
 import Header from "@components/Header.astro";
+import type { CollectionKey } from "astro:content";
 
-const { description, hideNav, title } = Astro.props;
+const { hideNav, meta = {}, title } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL("opengraph.png", Astro.site);
+const ogType = (meta.section || meta.date) ? "article" : "website";
+
+const dateRegExp = /^\d{4}-\d{2}-\d{2}$/;
+
+if (meta.date && !dateRegExp.test(meta.date)) {
+	throw TypeError(`Invalid date '${meta.date}', must be an ISO 8601-compatible date`);
+}
 ---
 <html lang="en">
 	<head>
@@ -21,18 +35,20 @@ const ogImageURL = new URL("opengraph.png", Astro.site);
 		<title>{title} - s&eacute;bastien dunne fulmer</title>
 		<link rel="sitemap" href="/sitemap-index.xml" />
 		<link rel="canonical" href={canonicalURL} />
-		{ (description) ? <meta name="description" content={description} /> : undefined }
+		{ (meta.description) ? <meta name="description" content={meta.description} /> : undefined }
 
 		{/* OpenGraph metadata */}
 		<meta property="og:title" content={title} />
-		<meta property="og:type" content="website" />
+		<meta property="og:type" content={ogType} />
 		<meta property="og:image" content={ogImageURL} />
 		<meta property="og:image:alt" content="sébastien dunne fulmer" />
 		<meta property="og:image:type" content="image/png" />
 		<meta property="og:url" content={canonicalURL} />
 		<meta property="og:site_name" content="sébastien dunne fulmer" />
 		<meta property="og:locale" content="en_GB" />
-		{ (description) ? <meta property="og:description" content={description} /> : undefined}
+		{ (meta.date) ? <meta property="og:published_time" content={meta.date} /> : undefined}
+		{ (meta.description) ? <meta property="og:description" content={meta.description} /> : undefined}
+		{ (meta.section) ? <meta property="og:section" content={meta.section} /> : undefined}
 	</head>
 	<body>
 		{ (!hideNav) ? <Header /> : undefined }
