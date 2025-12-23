@@ -1,14 +1,25 @@
 ---
+import { Icon } from "astro-icon/components";
+
 const year = new Date().getFullYear();
 ---
 
 <footer>
-	<small>&copy; { (year === 2024) ? year : "2024-" + year.toString() } S&eacute;bastien Dunne Fulmer. All rights reserved.</small>
+	<small>
+		&copy; { (year === 2024) ? year : "2024-" + year.toString() } S&eacute;bastien Dunne Fulmer. All rights reserved.
+		|
+		<a href="/rss.xml"><Icon name="tabler:file-rss" />RSS Feed</a>
+	</small>
 </footer>
 
 <style>
 	footer {
 		margin: 2em 1em;
 		text-align: center;
+	}
+
+	[data-icon] {
+		margin-right: 0.2em;
+		vertical-align: bottom;
 	}
 </style>
