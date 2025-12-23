@@ -28,7 +28,7 @@ const tags = await getTags(postPage);
 
 <Layout title={postPage.data.title} meta={meta}>
 	<section>
-		<a href="/thoughts">back to thoughts</a>
+		<a href="/thoughts" title="back to thoughts"><strong>thoughts</strong>/</a>
 		<h1>{ postPage.data.title }</h1>
 		<p><TagLinks tags={tags} /></p>
 		<p>{ dateFormatter.format(postPage.data.date) }</p>

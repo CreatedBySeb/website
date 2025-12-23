@@ -28,7 +28,7 @@ const tags = await getTags(projectPage);
 
 <Layout title={projectPage.data.title} meta={meta}>
 	<section>
-		<a href="/projects">back to projects</a>
+		<a href="/projects" title="back to projects"><strong>projects</strong>/</a>
 		<h1>{ projectPage.data.title } { projectPage.data.link ? <a class="button" href={projectPage.data.link.url}>{ projectPage.data.link.name }</a> : undefined }</h1>
 		<p><TagLinks tags={tags} /></p>
 
