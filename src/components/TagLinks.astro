@@ -1,0 +1,20 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	tags: CollectionEntry<"tags">[];
+}
+
+const { tags } = Astro.props;
+---
+
+{
+	tags.map((tag, i) => {
+		const els = [<a href={`/tags/${tag.id}`}>{ tag.data.name }</a>];
+
+		if (i === tags.length - 2) els.push(" & ");
+		else if (i < tags.length - 1) els.push(", ");
+
+		return els;
+	})
+}

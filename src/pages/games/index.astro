@@ -1,10 +1,10 @@
 ---
-import TechLinks from "@components/TechLinks.astro";
+import TagLinks from "@components/TagLinks.astro";
 import Layout from "@layouts/Layout.astro";
+import { getTags, sortByDate } from "@lib/util";
 import { getCollection } from "astro:content";
 
-const games = (await getCollection("games"))
-	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const games = sortByDate(await getCollection("games"));
 ---
 
 <Layout title="games">
@@ -12,19 +12,23 @@ const games = (await getCollection("games"))
 		<h1>games</h1>
 
 		{
-			games.map((game) => (
-				<article class="content-item">
-					<h2><a href={"/games/" + game.id}>{ game.data.title }</a></h2>
-					<div class="game-details">
-						<p><TechLinks techs={game.data.tech} /></p>
-						{ (game.data.jam) ?
-							<a href={game.data.jam.link}>{ game.data.jam.name }</a>
-							: undefined
-						}
-					</div>
-					<p>{ game.data.description }</p>
-				</article>
-			))
+			games.map(async (game) => {
+				const tags = await getTags(game);
+
+				return (
+					<article class="content-item">
+						<h2><a href={"/games/" + game.id}>{ game.data.title }</a></h2>
+						<div class="game-details">
+							<p><TagLinks tags={tags} /></p>
+							{ (game.data.jam) ?
+								<a href={game.data.jam.link}>{ game.data.jam.name }</a>
+								: undefined
+							}
+						</div>
+						<p>{ game.data.description }</p>
+					</article>
+				);
+			})
 		}
 	</section>
 </Layout>

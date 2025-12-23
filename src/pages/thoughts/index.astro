@@ -1,10 +1,10 @@
 ---
+import TagLinks from "@components/TagLinks.astro";
 import Layout from "@layouts/Layout.astro";
-import { dateFormatter } from "@lib/util";
+import { dateFormatter, getTags, sortByDate } from "@lib/util";
 import { getCollection } from "astro:content";
 
-const thoughts = (await getCollection("thoughts"))
-	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const thoughts = sortByDate(await getCollection("thoughts"));
 ---
 
 <Layout title="thoughts">
@@ -15,9 +15,12 @@ const thoughts = (await getCollection("thoughts"))
 			(!thoughts.length) ? <p>no thoughts just yet, check back soon</p> : undefined
 		}
 		{
-			thoughts.map((post) => {
+			thoughts.map(async (post) => {
+				const tags = await getTags(post);
+
 				return <article class="content-item">
 					<h2><a href={"/thoughts/" + post.id}>{ post.data.title }</a></h2>
+					<p><TagLinks tags={tags}/></p>
 					<p>{ dateFormatter.format(post.data.date) }</p>
 					<p>{ post.data.description }</p>
 				</article>

@@ -1,7 +1,7 @@
 ---
 title: "Personal Website"
 description: "The website you are on right now"
-tech: ["Astro", "TypeScript", "CSS"]
+tags: ["astro", "typescript", "css"]
 date: 2024-06-13
 ---
 

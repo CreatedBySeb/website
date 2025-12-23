@@ -1,0 +1,43 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { COLLECTIONS, sortByDate } from "@lib/util";
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+
+export const getStaticPaths = (async () => {
+	const tags = await getCollection("tags");
+
+	return await Promise.all(tags.map(async (tag) => {
+		const collections = await Promise.all(COLLECTIONS.map((c) => {
+			return getCollection(c, ({ data }) => {
+				return data.tags?.find(({ id }) => id == tag.id);
+			});
+		}));
+
+		return {
+			params: { slug: tag.id },
+			props: { items: sortByDate(collections.flat()), tag },
+		};
+	}));
+}) satisfies GetStaticPaths;
+
+const { items, tag } = Astro.props;
+---
+
+<Layout title={`tag: ${tag.data.name}`}>
+	<section>
+		<h1>tag: { tag.data.name } ({items.length})</h1>
+		{ items.map((item) => (
+			<article class="content-item" style={`--theme: var(--${item.collection})`}>
+				<h2>{ item.collection } / <a href={`/${item.collection}/${item.id}`}>{ item.data.title }</a></h2>
+				<p>{ item.data.description }</p>
+			</article>
+		)) }
+	</section>
+</Layout>
+
+<style>
+	article {
+		color: var(--theme);
+	}
+</style>

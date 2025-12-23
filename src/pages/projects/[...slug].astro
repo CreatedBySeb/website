@@ -1,7 +1,7 @@
 ---
-import TechLinks from "@components/TechLinks.astro";
+import TagLinks from "@components/TagLinks.astro";
 import Layout, { type Meta } from "@layouts/Layout.astro";
-import { toISODate } from "@lib/util";
+import { getTags, toISODate } from "@lib/util";
 import type { GetStaticPaths } from "astro";
 import { getCollection, render } from "astro:content";
 
@@ -21,14 +21,16 @@ const meta: Meta = {
 	date: toISODate(projectPage.data.date),
 	description: projectPage.data.description,
 	section: "projects",
-}
+};
+
+const tags = await getTags(projectPage);
 ---
 
 <Layout title={projectPage.data.title} meta={meta}>
 	<section>
 		<a href="/projects">back to projects</a>
 		<h1>{ projectPage.data.title } { projectPage.data.link ? <a class="button" href={projectPage.data.link.url}>{ projectPage.data.link.name }</a> : undefined }</h1>
-		<p>Made with <TechLinks techs={projectPage.data.tech} /></p>
+		<p><TagLinks tags={tags} /></p>
 
 		<Content />
 	</section>

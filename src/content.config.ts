@@ -1,10 +1,18 @@
 import { glob } from "astro/loaders";
-import { defineCollection, z } from "astro:content";
+import { defineCollection, reference, z } from "astro:content";
+
+const tagsCollection = defineCollection({
+	loader: glob({ pattern: "**/*.toml", base: "./src/content/tags" }),
+	schema: () => z.object({
+		name: z.string(),
+	}),
+});
 
 const baseSchema = z.object({
 	title: z.string(),
 	description: z.string(),
 	date: z.date(),
+	tags: z.array(reference("tags")).optional(),
 });
 
 const gamesCollection = defineCollection({
@@ -15,7 +23,6 @@ const gamesCollection = defineCollection({
 			name: z.string(),
 			link: z.string(),
 		}).optional(),
-        tech: z.string().array(),
     }),
 });
 
@@ -26,7 +33,6 @@ const projectsCollection = defineCollection({
 			name: z.string(),
 			url: z.string(),
 		}).optional(),
-        tech: z.string().array(),
     }),
 });
 
@@ -38,5 +44,6 @@ const thoughtsCollection = defineCollection({
 export const collections = {
     games: gamesCollection,
     projects: projectsCollection,
+	tags: tagsCollection,
 	thoughts: thoughtsCollection,
 };

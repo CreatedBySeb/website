@@ -3,7 +3,7 @@ title: "Heart Attack"
 link: "https://createdbyseb.itch.io/heart-attack"
 jam: { name: "Brackeys 2021.2 Game Jam", link: "https://itch.io/jam/brackeys-6/rate/1175975" }
 description: "Biology-themed top down shooter where you fight off infections as an antibody and evolve yourself"
-tech: ["Unity", "C#"]
+tags: ["unity", "c-sharp"]
 date: 2021-08-28
 ---
 

@@ -2,7 +2,7 @@
 title: "Tabtastic"
 link: { name: "Visit", url: "https://tabtastic.net" }
 description: "Software-as-a-Service platform for running debating competitions"
-tech: ["Vue.js", "TypeScript", "Node.js", "Sass"]
+tags: ["vue-js", "typescript", "node-js", "sass"]
 date: 2020-09-01
 ---
 

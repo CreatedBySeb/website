@@ -1,7 +1,7 @@
 ---
-import TechLinks from "@components/TechLinks.astro";
+import TagLinks from "@components/TagLinks.astro";
 import Layout, { type Meta } from "@layouts/Layout.astro";
-import { toISODate } from "@lib/util";
+import { getTags, toISODate } from "@lib/util";
 import type { GetStaticPaths } from "astro";
 import { getCollection, render } from "astro:content";
 
@@ -22,13 +22,15 @@ const meta: Meta = {
 	description: gamePage.data.description,
 	section: "games",
 };
+
+const tags = await getTags(gamePage);
 ---
 
 <Layout title={gamePage.data.title} meta={meta}>
 	<section>
 		<a href="/games">back to games</a>
 		<h1>{ gamePage.data.title } { gamePage.data.link ? <a class="button" href={gamePage.data.link}>Play</a> : undefined }</h1>
-		<p>Made with <TechLinks techs={gamePage.data.tech} />{ gamePage.data.jam ? <span> for the <a href={gamePage.data.jam.link}>{ gamePage.data.jam.name }</a></span> : undefined }</p>
+		<p><TagLinks tags={tags} />{ gamePage.data.jam ? <span> for the <a href={gamePage.data.jam.link}>{ gamePage.data.jam.name }</a></span> : undefined }</p>
 
 		<Content />
 	</section>

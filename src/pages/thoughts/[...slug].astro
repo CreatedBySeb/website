@@ -1,6 +1,7 @@
 ---
+import TagLinks from "@components/TagLinks.astro";
 import Layout, { type Meta } from "@layouts/Layout.astro";
-import { dateFormatter, toISODate } from "@lib/util";
+import { dateFormatter, getTags, toISODate } from "@lib/util";
 import type { GetStaticPaths } from "astro";
 import { getCollection, render } from "astro:content";
 
@@ -20,13 +21,16 @@ const meta: Meta = {
 	date: toISODate(postPage.data.date),
 	description: postPage.data.description,
 	section: "thoughts",
-}
+};
+
+const tags = await getTags(postPage);
 ---
 
 <Layout title={postPage.data.title} meta={meta}>
 	<section>
 		<a href="/thoughts">back to thoughts</a>
 		<h1>{ postPage.data.title }</h1>
+		<p><TagLinks tags={tags} /></p>
 		<p>{ dateFormatter.format(postPage.data.date) }</p>
 
 		<Content />

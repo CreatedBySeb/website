@@ -3,7 +3,7 @@ title: "The Great Escape"
 link: "https://createdbyseb.itch.io/the-great-invasion"
 jam: { name: "GameDev.tv Game Jam 2024", link: "https://itch.io/jam/gamedevtv-jam-2024/rate/2749858" }
 description: "No respawns tactical RPG based upon Final Fantasy Tactics and Fire Emblem where you stand against an invading empire to give villagers time to escape"
-tech: ["Godot", "GDScript"]
+tags: ["godot", "gdscript"]
 date: 2024-06-03
 ---
 

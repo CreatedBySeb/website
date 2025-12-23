@@ -1,10 +1,10 @@
 ---
-import TechLinks from "@components/TechLinks.astro";
+import TagLinks from "@components/TagLinks.astro";
 import Layout from "@layouts/Layout.astro";
+import { getTags, sortByDate } from "@lib/util";
 import { getCollection } from "astro:content";
 
-const projects = (await getCollection("projects"))
-	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const projects = sortByDate(await getCollection("projects"));
 ---
 
 <Layout title="projects">
@@ -12,13 +12,17 @@ const projects = (await getCollection("projects"))
 		<h1>projects</h1>
 
 		{
-			projects.map((project) => (
-				<article class="content-item">
-					<h2><a href={"/projects/" + project.id}>{ project.data.title }</a></h2>
-                    <p><TechLinks techs={project.data.tech}/></p>
-					<p>{ project.data.description }</p>
-				</article>
-			))
+			projects.map(async (project) => {
+				const tags = await getTags(project);
+
+				return (
+					<article class="content-item">
+						<h2><a href={"/projects/" + project.id}>{ project.data.title }</a></h2>
+						<p><TagLinks tags={tags}/></p>
+						<p>{ project.data.description }</p>
+					</article>
+				);
+			})
 		}
 	</section>
 </Layout>
