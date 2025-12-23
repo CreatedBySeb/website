@@ -20,6 +20,7 @@ const { hideNav, meta = {}, title } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL("opengraph.png", Astro.site);
 const ogType = (meta.section || meta.date) ? "article" : "website";
+const rssURL = new URL("rss.xml", Astro.site);
 
 const dateRegExp = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -35,6 +36,7 @@ if (meta.date && !dateRegExp.test(meta.date)) {
 		<title>{title} - s&eacute;bastien dunne fulmer</title>
 		<link rel="sitemap" href="/sitemap-index.xml" />
 		<link rel="canonical" href={canonicalURL} />
+		<link rel="alternate" type="application/rss+xml" title="sébastien dunne fulmer" href={rssURL} />
 		{ (meta.description) ? <meta name="description" content={meta.description} /> : undefined }
 
 		{/* OpenGraph metadata */}
