@@ -11,6 +11,7 @@ export const GET: APIRoute = async (context) => {
 			pubDate: i.data.date,
 			description: i.data.description,
 			link: `/${i.collection}/${i.id}`,
+			categories: [i.collection],
 		}));
 
 	return rss({
