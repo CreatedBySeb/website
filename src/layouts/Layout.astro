@@ -48,9 +48,9 @@ if (meta.date && !dateRegExp.test(meta.date)) {
 		<meta property="og:url" content={canonicalURL} />
 		<meta property="og:site_name" content="sébastien dunne fulmer" />
 		<meta property="og:locale" content="en_GB" />
-		{ (meta.date) ? <meta property="og:published_time" content={meta.date} /> : undefined}
 		{ (meta.description) ? <meta property="og:description" content={meta.description} /> : undefined}
-		{ (meta.section) ? <meta property="og:section" content={meta.section} /> : undefined}
+		{ (meta.date) ? <meta property="article:published_time" content={meta.date} /> : undefined}
+		{ (meta.section) ? <meta property="article:section" content={meta.section} /> : undefined}
 	</head>
 	<body>
 		{ (!hideNav) ? <Header /> : undefined }
