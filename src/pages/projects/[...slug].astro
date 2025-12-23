@@ -17,13 +17,14 @@ export const getStaticPaths = (async () => {
 const { projectPage } = Astro.props;
 const { Content } = await render(projectPage);
 
+const tags = await getTags(projectPage);
+
 const meta: Meta = {
 	date: toISODate(projectPage.data.date),
 	description: projectPage.data.description,
 	section: "projects",
+	tags: tags.map((t) => t.data.name),
 };
-
-const tags = await getTags(projectPage);
 ---
 
 <Layout title={projectPage.data.title} meta={meta}>
