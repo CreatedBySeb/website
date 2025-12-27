@@ -1,0 +1,159 @@
+---
+title: "Running Pygame on the web using Pyodide"
+description: "Figuring out how to take a local Python game using Pygame and produce a zero-setup web build for personal sites or Itch.io"
+date: 2025-12-23
+tags: ["python", "pyodide"]
+---
+
+import InfoBox from "@components/InfoBox.astro";
+
+Recently, while working on a small game called 'Battlesnakes' which I am making using Python and Pygame, I started wondering if there was a way to run the game, largely unmodified, on the web. I have made games for game jams before using Godot, which supports web exports, and this is a pretty handy way to ensure that anyone can give your game a try without having to install or download anything onto their computer. I had previously worked with [Skulpt](https://skulpt.org/), but it is not a full implementation of a modern Python version, does not support libraries with native code, and does not appear to be very actively developed, though it does have its own strengths. This led me to [Pyodide](https://pyodide.org/en/stable/), which is a largely complete port of CPython to WebAssembly/Emscripten ([see here](https://pyodide.org/en/stable/usage/wasm-constraints.html) for differences).
+
+Pyodide is a much more complete way to run Python code on the web, it has support for [installing pure-Python packages from PyPi](https://pyodide.org/en/stable/usage/loading-packages.html#installing-packages), including dependency resolution, and it has built-in support for [select packages that include native code](https://pyodide.org/en/stable/usage/packages-in-pyodide.html), covering common packages like `cryptography`, `matplotlib`, `numpy`, `opencv-python` and `pandas`, with instructions on how to [compile your own](https://pyodide.org/en/stable/development/building-packages.html). It even [supports SDL-based libraries](https://pyodide.org/en/stable/usage/sdl.html) via an HTML canvas compatibility layer, which is what enables you to use Pygame on the web. While I haven't encountered any issues so far, it is worth noting that this functionality is marked experimental in the documentation so may have issues depending on your use-case.
+
+<InfoBox title="pygame vs pygame-ce">
+	I found out about [pygame-ce](https://github.com/pygame-community/pygame-ce) for the first time when exploring Pyodide and finding that pygame-ce was in the [supported package list](https://pyodide.org/en/0.29.0/usage/packages-in-pyodide.html), but pygame wasn't (as of Pyodide 0.29.0). This prompted me to swap my own project over to pygame-ce and find it was cross-compatible, at least at the early state my game was in. I'm not sure of the differences or if which cases they are interoperable in, but since this is the version already supported by Pyodide, it is what I chose to use. You can find its documentation [here](https://pyga.me/docs/).
+</InfoBox>
+
+<figure>
+	<iframe
+		width="640"
+		height="480"
+		scrolling="no"
+		src="https://createdbyseb.github.io/pyodide-pygame-demo/"
+		style="background: white"></iframe>
+	<figcaption>
+		A simple demo inspired by the DVD screen ([source](https://github.com/CreatedBySeb/pyodide-pygame-demo))
+	</figcaption>
+</figure>
+
+## Adapting an existing project
+
+The easiest way to ship any project for use with Pyodide is to first build your module as a wheel using your build system of choice (I used [`uv`](https://docs.astral.sh/uv/) with [`uv_build`](https://docs.astral.sh/uv/concepts/build-backend/) for the demo), which you can host on your web server and load into Pyodide by passing its URL to [`pyodide.loadPackage`](https://pyodide.org/en/stable/usage/api/js-api.html#pyodide.loadPackage). Since we need Pygame, we will add `'pygame-ce'` to the array passed to `pyodide.loadPackage`, which will fetch the pre-compiled wheel. We will also need to create a HTML `<canvas>` element for the SDL compatibility layer, which must have an ID of `canvas`, and is passed to [`pyodide.canvas.setCanvas2D`](https://pyodide.org/en/stable/usage/api/js-api.html#pyodide.canvas.setCanvas2D). This must be done before the `pygame` module is imported. We can then import our module using [`pyodide.pyimport`](https://pyodide.org/en/stable/usage/api/js-api.html#pyodide.pyimport), and call our entrypoint method on the returned module. A basic HTML page should look something like:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://cdn.jsdelivr.net/pyodide/v0.29.0/full/pyodide.js"></script>
+</head>
+<body>
+	<!-- Use whatever canvas dimensions make sense for your project -->
+	<canvas id="canvas" width="640" height="480"></canvas>
+	<script>
+		async function setup() {
+			const canvas = document.getElementById("canvas");
+
+			const pyodide = await loadPyodide();
+			pyodide.canvas.setCanvas2D(canvas);
+
+			await pyodide.loadPackage([
+				"pygame-ce",
+				"./my_module-0.1.0-py3-none-any.whl", // Can be a full or relative URL
+			]);
+
+			const mod = pyodide.pyimport("my_module");
+			mod.main(); // Replace 'main' with your entrypoint function
+		}
+
+		setup();
+	</script>
+</body>
+</html>
+```
+
+Your Python module should now load and execute when you load the page, though unless you are already using `asyncio` it will likely freeze on load. However, if you look at the JavaScript console and it is working, you should see output similar to:
+
+```
+Loading pygame-ce, my_module
+Loaded pygame-ce, my_module
+pygame-ce 2.5.6.dev2 (SDL 2.32.0, Python 3.13.2)
+```
+
+In order to resolve the freezing issue, we need to leverage `asyncio` within our main loop so that control is regularly yielded back to the browser for rendering our canvas. When using Pygame, it can be pretty common to see a structure similar to the following:
+
+```python
+import pygame
+
+SCREEN_SIZE = (640, 480)
+
+
+def main():
+	pygame.init()
+	screen = pygame.display.set_mode(SCREEN_SIZE)
+	clock = pygame.Clock()
+
+	dt = 0.0
+
+	while True:
+		events = pygame.event.get()
+
+		if any(event.type == pygame.QUIT for event in events):
+			raise SystemExit(0)
+
+		# Game logic here
+
+		dt = clock.tick()
+```
+
+However, because this code runs continuously, control is never yielded to the browser. In order to rectify this, we need to make our program async so that we can yield on each frame:
+
+```python
+import asyncio
+import pygame
+
+FRAME_DELAY = 1 / 60
+SCREEN_SIZE = (640, 480)
+
+
+async def main():
+	pygame.init()
+	screen = pygame.display.set_mode(SCREEN_SIZE)
+
+	last_ticks = pygame.time.get_ticks()
+	dt = 0.0
+
+	while True:
+		events = pygame.event.get()
+
+		if any(event.type == pygame.QUIT for event in events):
+			raise SystemExit(0)
+
+		# Game logic here
+
+		ticks = pygame.time.get_ticks()
+		dt = ticks - last_ticks  # Equivalent result to pygame.Clock.tick
+		last_tick = ticks
+
+		# Yield control to the browser
+		await asyncio.sleep(FRAME_DELAY)
+```
+
+As long as we yield for some amount of time at the end of each loop iteration, control is returned to the browser and the canvas will render properly. It's important to note that using a value of `0` to yield without waiting seems to result in some strange rendering behaviour. We can recreate the time delta behaviour of `pygame.Clock.tick` which is important to many games by using `pygame.time.get_ticks` at the end of each loop. This should be enough to get most basic projects working. Our alternative doesn't recreate the frame rate limiting functionality which `pygame.Clock.tick` provides via the `framerate` argument, it just uses a static delay at the end of each loop, so our example will run at less than 60 FPS. You can consider using a very small delay to minimise the impact of yielding, or dynamically compute the delay each loop to re-create the `framerate` behaviour.
+
+You can see the code for the working sample above [here](https://github.com/CreatedBySeb/pyodide-pygame-demo/tree/main).
+
+## Additional considerations
+
+### File access
+
+While our example does not contain any asset files like images or audio, if you do want to use asset files with Pyodide, the easiest way to do so is to ship them as resources in your Python module. With `uv_build`, you can do this by just including them in the module folder, though I like to put them in an `assets` subfolder. You can then access a `Path`-like object via `importlib.resources.files()`, and call `joinpath` on it with the path components for your specific asset, and pass this in where you would normally provide a `Path` or string path to Pygame. For instance, you could load an image like so:
+
+```python
+image_path = importlib.resources.files().joinpath("assets", "sprite.png")
+image = pygame.image.load(image_path)
+```
+
+Since Emscripten, and thus Pyodide, provides a virtual file system, it's also possible to download resources over the network from within your Python code and persist them via one of the available options, though by default the data will be lost on reload. You can learn more about the available options [here](https://pyodide.org/en/stable/usage/file-system.html), which are also relevant if you want to support local save files for example.
+
+### Audio
+
+Pyodide's SDL compatibility layer does support audio, but Web Audio APIs are protected by user activation checks, so Pyodide's attempt to create one for your SDL context will fail if the user has not interacted with the page yet when your game starts (see [MDN docs](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/User_activation#sticky_activation) for details). The easiest way to accommodate this is by having the game load only once the user has clicked an HTML button on the page, similar to what Itch.io does for web games, which also avoids surprising a user with a sudden burst of sound. You can adapt the HTML snippet above to do this quite easily, by adding a button and only calling `mod.main()` in the button's `click` event listener, which can be overlaid over the canvas using some basic CSS.
+
+### Mouse input
+
+When porting my other project to Pyodide, I found that `pygame.mouse.get_just_pressed` did not seem to work with Pyodide as it did running locally, which broke the code I was using for my menu buttons. However, rewriting the same code to instead use the events from my per-frame call to `pygame.event.get()` worked fine in both cases. I'm unsure why this is exactly, it could be something internal not working as expected with the SDL compatibility layer, or a bug in the version of Pygame shipped in Pyodide 0.29.0 (which appears to be a dev build rather than a release version), but for now I've stuck with the event-based solution which works fine.
+
+## Conclusion
+
+While Godot is likely to remain my engine of choice for major projects in the future, I definitely didn't expect it to be this straightforward to get a Pygame project running on the web. The whole reason I started working on the project that inspired this effort was to try different tools and see what I learned, and this 'side quest' of exploring Pyodide has definitely caused me to learn a lot and has also given me many new ideas for projects, especially potential uses in educational tech. It's worth noting that my project is relatively simple, it does use more features than the demo in this article, but still is not approaching the complexity of some of my [previous game projects](/games), so it is possible I'll find more critical issues as I progress. In the mean time though, this is a great way for me to share some dev builds of my game with others to get feedback as I continue trying to hone my game design skills and broaden my programming skills. Hopefully I'll be posting about a finished version of it sometime soon!

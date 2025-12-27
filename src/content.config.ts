@@ -37,7 +37,7 @@ const projectsCollection = defineCollection({
 });
 
 const thoughtsCollection = defineCollection({
-	loader: glob({ pattern: "**/*.md", base: "./src/content/thoughts" }),
+	loader: glob({ pattern: "**/*.mdx", base: "./src/content/thoughts" }),
 	schema: () => baseSchema.extend({}),
 })
 
