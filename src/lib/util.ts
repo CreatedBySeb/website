@@ -14,6 +14,9 @@ interface TaggedItem {
 
 export type LinkedData = Record<string, unknown>;
 
+/** A Structured Data Person, used for author attribution on the site */
+export const AUTHOR_PERSON: LinkedData = { "@type": "Person", name: "Sébastien Dunne Fulmer", url: "https://www.sebastienfulmer.com/" };
+
 export const COLLECTIONS = ["games", "projects", "thoughts"] as const;
 
 export const dateFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "long", weekday: "long", year: "numeric" });

@@ -1,7 +1,7 @@
 ---
 import TagLinks from "@components/TagLinks.astro";
 import Layout, { type Meta } from "@layouts/Layout.astro";
-import { dateFormatter, getBreadcrumbs, getTags, toISODate } from "@lib/util";
+import { AUTHOR_PERSON, dateFormatter, getBreadcrumbs, getTags, toISODate } from "@lib/util";
 import type { GetStaticPaths } from "astro";
 import { getCollection, render } from "astro:content";
 
@@ -26,10 +26,22 @@ const meta: Meta = {
 	tags: tags.map((t) => t.data.name),
 };
 
-const ld = getBreadcrumbs([
-	["thoughts", new URL("thoughts", Astro.site)],
-	[postPage.data.title, undefined],
-]);
+const ld = [
+	getBreadcrumbs([
+		["thoughts", new URL("thoughts", Astro.site)],
+		[postPage.data.title, undefined],
+	]),
+	{
+		"@context": "https://schema.org",
+		"@type": "BlogPosting",
+		"author": AUTHOR_PERSON,
+		"datePublished": postPage.data.date.toISOString(),
+		"headline": postPage.data.title,
+		"abstract": postPage.data.description,
+		"description": postPage.data.description,
+		"keywords": tags.map((t) => t.data.name),
+	},
+];
 ---
 
 <Layout title={postPage.data.title} ld={ld} meta={meta}>
