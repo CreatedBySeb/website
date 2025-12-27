@@ -1,4 +1,9 @@
 ---
+import Footer from "@components/Footer.astro";
+import Header from "@components/Header.astro";
+import type { LinkedData } from "@lib/util";
+import type { CollectionKey } from "astro:content";
+
 export interface Meta {
 	date?: string;
 	description?: string;
@@ -8,15 +13,12 @@ export interface Meta {
 
 interface Props {
 	hideNav?: boolean;
+	ld?: LinkedData | LinkedData[];
 	meta?: Meta;
 	title: string;
 }
 
-import Footer from "@components/Footer.astro";
-import Header from "@components/Header.astro";
-import type { CollectionKey } from "astro:content";
-
-const { hideNav, meta = {}, title } = Astro.props;
+const { hideNav, ld = undefined, meta = {}, title } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL("opengraph.png", Astro.site);
@@ -53,6 +55,9 @@ if (meta.date && !dateRegExp.test(meta.date)) {
 		{ (meta.date) ? <meta property="article:published_time" content={meta.date} /> : undefined}
 		{ (meta.section) ? <meta property="article:section" content={meta.section} /> : undefined}
 		{ (meta.tags) ? meta.tags.map((tag) => <meta property="article:tag" content={tag} />) : undefined}
+
+		{/* JSON-LD for Structured Data */}
+		{ (ld) ? <script type="application/ld+json" set:html={JSON.stringify(ld)}></script> : undefined }
 	</head>
 	<body>
 		{ (!hideNav) ? <Header /> : undefined }

@@ -12,9 +12,29 @@ interface TaggedItem {
 	};
 }
 
+export type LinkedData = Record<string, unknown>;
+
 export const COLLECTIONS = ["games", "projects", "thoughts"] as const;
 
 export const dateFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "long", weekday: "long", year: "numeric" });
+
+/**
+ * Generates a set of Structured Data Breadcrumbs from an array of items
+ * @param items An array of name, link pairs to build the breadcrumbs from
+ * @returns A JSON-LD object representing the breadcrumb, ready to be serialised
+ */
+export function getBreadcrumbs(items: [string, URL | string | undefined][]): LinkedData {
+	return {
+		"@context": "https://schema.org",
+		"@type": "BreadcrumbList",
+		"itemListElement": items.map(([name, link], i) => ({
+			"@type": "ListItem",
+			"position": i + 1,
+			"name": name,
+			"item": link?.toString(),
+		})),
+	}
+}
 
 /**
  * Gets the tag entries for all of the tags referenced by a content item

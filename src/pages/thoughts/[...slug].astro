@@ -1,7 +1,7 @@
 ---
 import TagLinks from "@components/TagLinks.astro";
 import Layout, { type Meta } from "@layouts/Layout.astro";
-import { dateFormatter, getTags, toISODate } from "@lib/util";
+import { dateFormatter, getBreadcrumbs, getTags, toISODate } from "@lib/util";
 import type { GetStaticPaths } from "astro";
 import { getCollection, render } from "astro:content";
 
@@ -25,9 +25,14 @@ const meta: Meta = {
 	section: "thoughts",
 	tags: tags.map((t) => t.data.name),
 };
+
+const ld = getBreadcrumbs([
+	["thoughts", new URL("thoughts", Astro.site)],
+	[postPage.data.title, undefined],
+]);
 ---
 
-<Layout title={postPage.data.title} meta={meta}>
+<Layout title={postPage.data.title} ld={ld} meta={meta}>
 	<section>
 		<a href="/thoughts" title="back to thoughts"><strong>thoughts</strong>/</a>
 		<h1>{ postPage.data.title }</h1>
