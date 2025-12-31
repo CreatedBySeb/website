@@ -1,5 +1,5 @@
 ---
-import Layout from "@layouts/Layout.astro";
+import Layout, { type Meta } from "@layouts/Layout.astro";
 import { getAllContent, sortByDate } from "@lib/util";
 import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
@@ -20,11 +20,15 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { items, tag } = Astro.props;
+const description = tag.data.description && "Posts about " + tag.data.description;
+const meta: Meta = { description };
 ---
 
-<Layout title={`tag: ${tag.data.name}`}>
+<Layout title={`tag: ${tag.data.name}`} meta={meta}>
 	<section>
 		<h1>tag: { tag.data.name } ({items.length})</h1>
+		{ description ? <p>{description}</p> : undefined }
+
 		{ items.map((item) => (
 			<article class="content-item" style={`--theme: var(--${item.collection})`}>
 				<h2>

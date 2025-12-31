@@ -5,6 +5,7 @@ const tagsCollection = defineCollection({
 	loader: glob({ pattern: "**/*.toml", base: "./src/content/tags" }),
 	schema: () => z.object({
 		name: z.string(),
+		description: z.string().optional(),
 	}),
 });
 

@@ -1,1 +1,2 @@
 name = "Pyodide"
+description = "the Pyodide Python distribution, which ports CPython to WebAssembly/Emscripten for use in the browser"

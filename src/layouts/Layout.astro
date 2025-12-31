@@ -5,10 +5,10 @@ import type { LinkedData } from "@lib/util";
 import type { CollectionKey } from "astro:content";
 
 export interface Meta {
-	date?: string;
-	description?: string;
-	section?: CollectionKey;
-	tags?: string[];
+	date?: string | undefined;
+	description?: string | undefined;
+	section?: CollectionKey | undefined;
+	tags?: string[] | undefined;
 }
 
 interface Props {
