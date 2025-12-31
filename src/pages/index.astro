@@ -1,8 +1,12 @@
 ---
+import TagLinks from "@components/TagLinks.astro";
 import Layout from "@layouts/Layout.astro";
+import { dateFormatter, getAllContent, getTags, sortByDate } from "@lib/util";
 
 const gwrLink = "https://www.tcd.ie/news_events/articles/2023/the-hist-wins-guinness-world-record-for-longest-debate/",
 	stormontLink = "https://www.youtube.com/watch?v=hdEQnLnAryU";
+
+const recentItems = sortByDate(await getAllContent()).slice(0, 5);
 ---
 
 <Layout title="about" hideNav>
@@ -44,6 +48,27 @@ const gwrLink = "https://www.tcd.ie/news_events/articles/2023/the-hist-wins-guin
 
 		<p>While in Trinity, I won the Trinity Legacy Award for my work improving accessibility on campus, <a href={gwrLink}>set a world record for the longest marathon debate with the Hist</a>, <a href={stormontLink}>represented Trinity in a debate at the Northern Irish Assembly in Stormont</a>, helped organise the 2023 World Universities Debating Championships in Madrid, and built my own Software-as-a-Service platform for running debate competitions, <a href="/projects/tabtastic">Tabtastic</a>.</p>
 	</section>
+
+	<section class="recent-items">
+		<h2>recent items (<code>tail -n 5</code>)</h2>
+		<ul>
+			{recentItems.map(async (item) => {
+				const tags = await getTags(item);
+
+				return <li style={`--theme: var(--${item.collection})`}>
+					<div>
+						<h3>
+							<a href={"/" + item.collection}>{ item.collection }</a> /
+							<a href={`/${item.collection}/${item.id}`}>{ item.data.title }</a>
+						</h3>
+						<p>{ dateFormatter.format(item.data.date) }</p>
+					</div>
+					<p>{ tags.length ? <TagLinks tags={tags}/> : undefined } | { item.data.description }</p>
+				</li>
+			})}
+		</ul>
+	</section>
+
 </Layout>
 
 <style>
@@ -72,6 +97,31 @@ const gwrLink = "https://www.tcd.ie/news_events/articles/2023/the-hist-wins-guin
 				color: var(--theme);
 				list-style: none;
 				margin: .2em 0;
+			}
+		}
+	}
+
+	section.recent-items {
+		& ul {
+			list-style: none;
+			padding-left: 1rem;
+
+			& li {
+				color: var(--theme);
+				margin: 1rem 0;
+
+				& > div {
+					display: flex;
+					justify-content: space-between;
+
+					& > p {
+						font-style: italic;
+					}
+				}
+
+				& h3, p {
+					margin: 0.5rem 0;
+				}
 			}
 		}
 	}
