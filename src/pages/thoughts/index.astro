@@ -15,9 +15,6 @@ const thoughts = sortByDate(await getCollection("thoughts"));
 		</p>
 
 		{
-			(!thoughts.length) ? <p>no thoughts just yet, check back soon</p> : undefined
-		}
-		{
 			thoughts.map(async (post) => {
 				const tags = await getTags(post);
 
