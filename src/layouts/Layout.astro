@@ -18,7 +18,7 @@ interface Props {
 	title: string;
 }
 
-const { hideNav, ld = undefined, meta = {}, title } = Astro.props;
+let { hideNav, ld = undefined, meta = {}, title } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL("opengraph.png", Astro.site);
@@ -29,6 +29,10 @@ const dateRegExp = /^\d{4}-\d{2}-\d{2}$/;
 
 if (meta.date && !dateRegExp.test(meta.date)) {
 	throw TypeError(`Invalid date '${meta.date}', must be an ISO 8601-compatible date`);
+}
+
+if (ld instanceof Array) {
+	ld = {"@context": "https://schema.org", "@graph": ld};
 }
 ---
 <html lang="en">
@@ -57,7 +61,7 @@ if (meta.date && !dateRegExp.test(meta.date)) {
 		{ (meta.tags) ? meta.tags.map((tag) => <meta property="article:tag" content={tag} />) : undefined}
 
 		{/* JSON-LD for Structured Data */}
-		{ (ld) ? <script type="application/ld+json" set:html={JSON.stringify(ld)}></script> : undefined }
+		{ (ld) ? <script is:inline type="application/ld+json" set:html={JSON.stringify(ld)}></script> : undefined }
 	</head>
 	<body>
 		{ (!hideNav) ? <Header /> : undefined }
