@@ -28,13 +28,13 @@ const recentItems = sortByDate(await getAllContent()).slice(0, 5);
 		<nav class="large-nav">
 			<ul>
 				<li style="--theme: var(--thoughts)">
-					<a href="/thoughts">thoughts/</a>
+					<a href="/thoughts">thoughts/</a> -- learnings, tutorials, opinions and other things
 				</li>
 				<li style="--theme: var(--projects)">
-					<a href="/projects">projects/</a>
+					<a href="/projects">projects/</a> -- projects I have built
 				</li>
 				<li style="--theme: var(--games)">
-					<a href="/games">games/</a>
+					<a href="/games">games/</a> -- games I have worked on
 				</li>
 			</ul>
 		</nav>
@@ -90,13 +90,19 @@ const recentItems = sortByDate(await getAllContent()).slice(0, 5);
 
 	nav.large-nav {
 		& > ul {
-			font-size: 2em;
 			padding: 0;
 
 			& > li {
 				color: var(--theme);
+				font-size: 2rem;
+				font-style: italic;
 				list-style: none;
 				margin: .2em 0;
+
+				& > a {
+					font-size: 3rem;
+					font-style: normal;
+				}
 			}
 		}
 	}

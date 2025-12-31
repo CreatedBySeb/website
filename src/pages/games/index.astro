@@ -10,6 +10,9 @@ const games = sortByDate(await getCollection("games"));
 <Layout title="games">
 	<section>
 		<h1>games</h1>
+		<p>
+			The different games I have worked on, primarily as part of participating in Game Jams, though I hope to start building some more complete projects too.
+		</p>
 
 		{
 			games.map(async (game) => {

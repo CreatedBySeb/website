@@ -10,6 +10,9 @@ const thoughts = sortByDate(await getCollection("thoughts"));
 <Layout title="thoughts">
 	<section>
 		<h1>thoughts</h1>
+		<p>
+			A collection of different thoughts that seemed worth sharing, such as things I have learned, tutorials for how to accomplish something, and opinions on books/games/tech
+		</p>
 
 		{
 			(!thoughts.length) ? <p>no thoughts just yet, check back soon</p> : undefined

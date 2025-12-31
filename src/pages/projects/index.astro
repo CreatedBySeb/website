@@ -10,6 +10,9 @@ const projects = sortByDate(await getCollection("projects"));
 <Layout title="projects">
 	<section>
 		<h1>projects</h1>
+		<p>
+			Different projects I have built, ranging from smaller tools to larger ongoing services. Hoping to expand this section as I broaden the areas I work in.
+		</p>
 
 		{
 			projects.map(async (project) => {
