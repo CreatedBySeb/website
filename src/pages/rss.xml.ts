@@ -1,11 +1,10 @@
 import rss, { type RSSFeedItem } from "@astrojs/rss";
-import { COLLECTIONS, sortByDate } from "@lib/util";
+import { getAllContent, sortByDate } from "@lib/util";
 import type { APIRoute } from "astro";
-import { getCollection } from "astro:content";
 
 export const GET: APIRoute = async (context) => {
-	const rawItems = await Promise.all(COLLECTIONS.map((c) => getCollection(c)));
-	const items: RSSFeedItem[] = sortByDate(rawItems.flat())
+	const rawItems = await getAllContent();
+	const items: RSSFeedItem[] = sortByDate(rawItems)
 		.map((i) => ({
 			title: i.data.title,
 			pubDate: i.data.date,

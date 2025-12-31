@@ -1,4 +1,4 @@
-import { getEntries, type CollectionEntry, type ReferenceDataEntry } from "astro:content";
+import { getCollection, getEntries, type CollectionEntry, type ReferenceDataEntry } from "astro:content";
 
 interface DatedItem {
 	data: {
@@ -12,14 +12,27 @@ interface TaggedItem {
 	};
 }
 
+export type ContentCollections = "games" | "projects" | "thoughts";
+
 export type LinkedData = Record<string, unknown>;
 
 /** A Structured Data Person, used for author attribution on the site */
 export const AUTHOR_PERSON: LinkedData = { "@type": "Person", name: "Sébastien Dunne Fulmer", url: "https://www.sebastienfulmer.com/" };
 
-export const COLLECTIONS = ["games", "projects", "thoughts"] as const;
+export const COLLECTIONS: ContentCollections[] = ["games", "projects", "thoughts"];
 
 export const dateFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "long", weekday: "long", year: "numeric" });
+
+/**
+ * Fetches all actual content (i.e. not tags) from the main content collections
+ * @param filter An optional filter function passed to getCollection, must handle all types
+ * @returns An array of content items
+ */
+export async function getAllContent(filter?: (item: CollectionEntry<ContentCollections>) => boolean): Promise<CollectionEntry<ContentCollections>[]> {
+	return (await Promise.all(
+		COLLECTIONS.map((c) => getCollection(c, filter))
+	)).flat();
+}
 
 /**
  * Generates a set of Structured Data Breadcrumbs from an array of items
