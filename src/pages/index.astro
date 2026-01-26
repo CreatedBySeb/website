@@ -56,13 +56,11 @@ const recentItems = sortByDate(await getAllContent()).slice(0, 5);
 				const tags = await getTags(item);
 
 				return <li style={`--theme: var(--${item.collection})`}>
-					<div>
-						<h3>
-							<a href={"/" + item.collection}>{ item.collection }</a> /
-							<a href={`/${item.collection}/${item.id}`}>{ item.data.title }</a>
-						</h3>
-						<p>{ dateFormatter.format(item.data.date) }</p>
-					</div>
+					<h3>
+						<a href={"/" + item.collection}>{ item.collection }</a> /
+						<a href={`/${item.collection}/${item.id}`}>{ item.data.title }</a>
+					</h3>
+					<p class="item-date">{ dateFormatter.format(item.data.date) }</p>
 					<p>{ tags.length ? <TagLinks tags={tags}/> : undefined } | { item.data.description }</p>
 				</li>
 			})}
@@ -116,17 +114,12 @@ const recentItems = sortByDate(await getAllContent()).slice(0, 5);
 				color: var(--theme);
 				margin: 1rem 0;
 
-				& > div {
-					display: flex;
-					justify-content: space-between;
-
-					& > p {
-						font-style: italic;
-					}
-				}
-
 				& h3, p {
 					margin: 0.5rem 0;
+				}
+
+				& .item-date {
+					font-style: italic;
 				}
 			}
 		}
