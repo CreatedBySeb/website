@@ -15,14 +15,14 @@
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/rss": "^4.0.15",
     "@astrojs/sitemap": "^3.7.0",
-    "astro": "^5.16.11",
+    "astro": "^5.16.15",
     "astro-icon": "^1.1.5",
     "sharp": "^0.34.5",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
     "@iconify-json/tabler": "^1.2.26",
-    "@playwright/test": "^1.57.0",
-    "@types/node": "^25.0.9"
+    "@playwright/test": "^1.58.0",
+    "@types/node": "^25.0.10"
   }
 }
