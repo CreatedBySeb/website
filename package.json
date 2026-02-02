@@ -23,6 +23,6 @@
   "devDependencies": {
     "@iconify-json/tabler": "^1.2.26",
     "@playwright/test": "^1.58.1",
-    "@types/node": "^25.1.0"
+    "@types/node": "^25.2.0"
   }
 }
