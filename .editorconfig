@@ -4,7 +4,7 @@ root = true
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.{astro,js,ts}]
+[*.{astro,js,mjs,ts}]
 indent_style = tab
 
 [*.{json}]

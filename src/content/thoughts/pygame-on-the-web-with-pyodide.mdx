@@ -31,7 +31,7 @@ Pyodide is a much more complete way to run Python code on the web, it has suppor
 
 The easiest way to ship any project for use with Pyodide is to first build your module as a wheel using your build system of choice (I used [`uv`](https://docs.astral.sh/uv/) with [`uv_build`](https://docs.astral.sh/uv/concepts/build-backend/) for the demo), which you can host on your web server and load into Pyodide by passing its URL to [`pyodide.loadPackage`](https://pyodide.org/en/stable/usage/api/js-api.html#pyodide.loadPackage). Since we need Pygame, we will add `'pygame-ce'` to the array passed to `pyodide.loadPackage`, which will fetch the pre-compiled wheel. We will also need to create a HTML `<canvas>` element for the SDL compatibility layer, which must have an ID of `canvas`, and is passed to [`pyodide.canvas.setCanvas2D`](https://pyodide.org/en/stable/usage/api/js-api.html#pyodide.canvas.setCanvas2D). This must be done before the `pygame` module is imported. We can then import our module using [`pyodide.pyimport`](https://pyodide.org/en/stable/usage/api/js-api.html#pyodide.pyimport), and call our entrypoint method on the returned module. A basic HTML page should look something like:
 
-```html
+```html title=index.html "my_module" "main()"
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,7 +64,7 @@ The easiest way to ship any project for use with Pyodide is to first build your 
 
 Your Python module should now load and execute when you load the page, though unless you are already using `asyncio` it will likely freeze on load. However, if you look at the JavaScript console and it is working, you should see output similar to:
 
-```
+```shellsession
 Loading pygame-ce, my_module
 Loaded pygame-ce, my_module
 pygame-ce 2.5.6.dev2 (SDL 2.32.0, Python 3.13.2)
@@ -72,7 +72,7 @@ pygame-ce 2.5.6.dev2 (SDL 2.32.0, Python 3.13.2)
 
 In order to resolve the freezing issue, we need to leverage `asyncio` within our main loop so that control is regularly yielded back to the browser for rendering our canvas. When using Pygame, it can be pretty common to see a structure similar to the following:
 
-```python
+```python title=main.py
 import pygame
 
 SCREEN_SIZE = (640, 480)
@@ -98,7 +98,7 @@ def main():
 
 However, because this code runs continuously, control is never yielded to the browser. In order to rectify this, we need to make our program async so that we can yield on each frame:
 
-```python
+```python title=main.py
 import asyncio
 import pygame
 
@@ -139,7 +139,7 @@ You can see the code for the working sample above [here](https://github.com/Crea
 
 While our example does not contain any asset files like images or audio, if you do want to use asset files with Pyodide, the easiest way to do so is to ship them as resources in your Python module. With `uv_build`, you can do this by just including them in the module folder, though I like to put them in an `assets` subfolder. You can then access a `Path`-like object via `importlib.resources.files()`, and call `joinpath` on it with the path components for your specific asset, and pass this in where you would normally provide a `Path` or string path to Pygame. For instance, you could load an image like so:
 
-```python
+```python showLineNumbers=false
 image_path = importlib.resources.files().joinpath("assets", "sprite.png")
 image = pygame.image.load(image_path)
 ```

@@ -1,12 +1,13 @@
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
-import { defineConfig, fontProviders } from 'astro/config';
+import { defineConfig, fontProviders } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
 	site: "https://www.sebastienfulmer.com",
-	integrations: [icon(), mdx(), sitemap()],
+	integrations: [expressiveCode(), icon(), mdx(), sitemap()],
 
 	fonts: [
 		{
