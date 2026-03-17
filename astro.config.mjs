@@ -10,5 +10,5 @@ export default defineConfig({
 	redirects: {
 		"/techs/[...slug]": "/tags/[...slug]",
 		"/techs/csharp": "/tags/c-sharp",
-	}
+	},
 });
