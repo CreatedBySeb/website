@@ -2,6 +2,7 @@
 import Footer from "@components/Footer.astro";
 import Header from "@components/Header.astro";
 import type { LinkedData } from "@lib/util";
+import { Font } from "astro:assets";
 import type { CollectionKey } from "astro:content";
 
 export interface Meta {
@@ -46,6 +47,9 @@ if (ld instanceof Array) {
 		<link rel="alternate" type="application/rss+xml" title="sébastien dunne fulmer" href={rssURL} />
 		{ (meta.description) ? <meta name="description" content={meta.description} /> : undefined }
 
+		{/* Preload Astro fonts */}
+		<Font cssVariable="--font-work-sans" preload />
+
 		{/* OpenGraph metadata */}
 		<meta property="og:title" content={title} />
 		<meta property="og:type" content={ogType} />
@@ -73,17 +77,6 @@ if (ld instanceof Array) {
 </html>
 
 <style is:global>
-	@font-face {
-		font-family: "Work Sans";
-		src: url("/fonts/worksans.ttf");
-	}
-
-	@font-face {
-		font-family: "Work Sans";
-		src: url("/fonts/worksans-italic.ttf");
-		font-style: italic;
-	}
-
 	html {
 		--bg: #202020;
 		--primary: #07FA39;
@@ -94,7 +87,7 @@ if (ld instanceof Array) {
 		--theme: var(--primary);
 
 		background-color: var(--bg);
-		font-family: "Work Sans", sans-serif;
+		font-family: var(--font-work-sans);
 		font-size: 100%;
 	}
 

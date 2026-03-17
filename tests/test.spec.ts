@@ -15,4 +15,14 @@ test("homepage", async ({ page }) => {
 	const footer = page.locator("footer");
 	await expect(footer).toBeVisible();
 	await expect(footer.getByRole("link", { name: "RSS Feed" })).toBeVisible();
+
+	const body = page.locator("body");
+	await expect(body).toHaveCSS("font-family", /Work Sans/i);
+
+	// Wait for all fonts to load, then assert that every request for a font succeeded
+	await page.evaluate(() => document.fonts.ready);
+	const requests = await page.requests();
+	const fontRequests = requests.filter((req) => req.url().endsWith(".woff2"));
+	const responses = await Promise.all(fontRequests.map((req) => req.response()));
+	expect(responses.every((res) => res?.ok())).toBeTruthy();
 });

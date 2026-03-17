@@ -1,12 +1,21 @@
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import icon from "astro-icon";
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
 	site: "https://www.sebastienfulmer.com",
 	integrations: [icon(), mdx(), sitemap()],
+
+	fonts: [
+		{
+			provider: fontProviders.google(),
+			name: "Work Sans",
+			cssVariable: "--font-work-sans",
+		},
+	],
+
 	redirects: {
 		"/techs/[...slug]": "/tags/[...slug]",
 		"/techs/csharp": "/tags/c-sharp",
