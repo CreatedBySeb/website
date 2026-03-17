@@ -15,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Build
-        uses: withastro/action@v3
+        uses: withastro/action@v5
         with:
           package-manager: pnpm@latest
       - name: Install Playwright
@@ -25,7 +25,7 @@ jobs:
       - name: Run tests
         run: pnpm run test
       - name: Upload results
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
