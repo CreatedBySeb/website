@@ -77,6 +77,16 @@ if (ld instanceof Array) {
 </html>
 
 <style is:global>
+	@keyframes source-ripple {
+		from {
+			background-position: 97.5% 97.5%;
+		}
+
+		to {
+			background-position: 2.5% 2.5%;
+		}
+	}
+
 	html {
 		--bg: #202020;
 		--primary: #07FA39;
@@ -95,6 +105,7 @@ if (ld instanceof Array) {
 		color: var(--theme);
 		font-size: 1.2rem;
 		margin: 0;
+		position: relative;
 	}
 
 	a {
@@ -133,6 +144,34 @@ if (ld instanceof Array) {
 		padding: 0 2em;
 	}
 
+	#source-peek {
+		animation: source-ripple 5s linear infinite;
+		background-clip: text;
+
+		background-image: linear-gradient(
+			to bottom right,
+			rgba(7, 250, 57, 0.05) 47.5%,
+			rgba(7, 250, 57, 0.15) 50%,
+			rgba(7, 250, 57, 0.05) 52.5%
+		);
+
+		background-size: 210% 210%;
+		color: transparent;
+		font-size: 2rem;
+		left: 0;
+		margin: 0;
+		height: 100%;
+		min-height: 100vh;
+		overflow: hidden;
+		position: absolute;
+		text-wrap: wrap;
+		top: 0;
+		user-select: none;
+		width: 100vw;
+		word-break: break-all;
+		z-index: -1;
+	}
+
 	a.button, button.button {
 		border: .1em solid var(--theme);
 		border-radius: .25em;
@@ -164,3 +203,21 @@ if (ld instanceof Array) {
 		padding: 1rem;
 	}
 </style>
+
+<script>
+	// Clean up the source by removing spaces between tags, trimming down whitespace and
+	// removing Astro data attributes
+	const source = document.body.innerHTML
+		.replace(/> +</g, "><")
+		.replace(/\s{2,}|[\t\n]+/g, " ")
+		.replace(/ ?data-astro-[\w-]+="[^"]*"/g, "")
+		.trim();
+
+	// We add this dynamically after so it isn't included in the source itself
+	const peek = document.createElement("pre");
+	peek.id = "source-peek";
+	peek.innerText = source;
+	// Messy visual effect, so don't want it to be read aloud
+	peek.setAttribute("aria-hidden", "false");
+	document.body.appendChild(peek);
+</script>
