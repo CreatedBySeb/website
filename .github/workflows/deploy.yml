@@ -21,7 +21,7 @@ jobs:
         with:
           package-manager: pnpm@latest
       - name: Install Playwright
-        run: pnpx playwright install --with-deps
+        run: pnpm exec playwright install --with-deps
       - name: Run tests
         run: pnpm run test
       - name: Upload results
