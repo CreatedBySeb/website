@@ -70,6 +70,24 @@ const recentItems = sortByDate(await getAllContent()).slice(0, 5);
 </Layout>
 
 <style>
+	@keyframes elastic {
+		from {
+			transform: skew(0);
+		}
+
+		50% {
+			transform: skew(-10deg);
+		}
+
+		95% {
+			transform: skew(5deg);
+		}
+
+		to {
+			transform: skew(0);
+		}
+	}
+
 	h1 {
 		font-size: 3em;
 		margin: .25em 0;
@@ -98,8 +116,13 @@ const recentItems = sortByDate(await getAllContent()).slice(0, 5);
 				margin: .2em 0;
 
 				& > a {
+					display: inline-block;
 					font-size: 3rem;
 					font-style: normal;
+
+					&:hover {
+						animation: elastic 0.5s ease-in-out;
+					}
 				}
 			}
 		}
