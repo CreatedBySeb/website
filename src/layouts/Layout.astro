@@ -205,12 +205,13 @@ if (ld instanceof Array) {
 </style>
 
 <script>
-	// Clean up the source by removing spaces between tags, trimming down whitespace and
-	// removing Astro data attributes
+	// Clean up the source by removing spaces between tags, trimming down whitespace,
+	// removing Astro data attributes and removing SVGs
 	const source = document.body.innerHTML
 		.replace(/> +</g, "><")
 		.replace(/\s{2,}|[\t\n]+/g, " ")
 		.replace(/ ?data-astro-[\w-]+="[^"]*"/g, "")
+		.replace(/<svg[^>]*>.*?<\/svg>/g, "")
 		.trim();
 
 	// We add this dynamically after so it isn't included in the source itself
