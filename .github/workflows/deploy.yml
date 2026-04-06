@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
       - name: Build
-        uses: withastro/action@v5
+        uses: withastro/action@v6
         with:
           package-manager: pnpm@latest
       - name: Install Playwright
