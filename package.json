@@ -12,13 +12,13 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
-    "@astrojs/mdx": "^7.0.5",
+    "@astrojs/mdx": "^7.0.7",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "@expressive-code/plugin-line-numbers": "^0.44.1",
-    "astro": "^7.1.6",
+    "astro": "^7.2.4",
     "astro-expressive-code": "^0.44.1",
-    "astro-icon": "^1.1.5",
+    "astro-icon": "^1.2.0",
     "sharp": "^0.35.3",
     "typescript": "^6.0.3"
   },
