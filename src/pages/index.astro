@@ -57,7 +57,7 @@ const recentItems = sortByDate(await getAllContent()).slice(0, 5);
 
 				return <li style={`--theme: var(--${item.collection})`}>
 					<h3>
-						<a href={"/" + item.collection}>{ item.collection }</a> /
+						<a href={"/" + item.collection}>{ item.collection }</a>&nbsp;/&nbsp;
 						<a href={`/${item.collection}/${item.id}`}>{ item.data.title }</a>
 					</h3>
 					<p class="item-date">{ dateFormatter.format(item.data.date) }</p>
