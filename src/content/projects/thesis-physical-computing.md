@@ -2,7 +2,7 @@
 title: "Leveraging the Benefits of Physical Computing in a Beginner-Focused Programming Environment"
 link: { name: "Read", url: "https://www.tara.tcd.ie/handle/2262/112370" }
 description: "My Engineering Masters thesis, examining how the Pytch programming environment could incorporate physical devices to improve learning outcomes"
-tags: ["education", "python", "hardware"]
+tags: ["education", "python", "hardware", "research"]
 date: 2024-05-01
 ---
 
