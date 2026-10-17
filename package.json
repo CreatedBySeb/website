@@ -12,19 +12,19 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
-    "@astrojs/mdx": "^8.0.1",
+    "@astrojs/mdx": "^8.1.0",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@expressive-code/plugin-line-numbers": "^0.44.2",
-    "astro": "^7.3.2",
+    "astro": "^7.4.0",
     "astro-expressive-code": "^0.44.2",
     "astro-icon": "^1.2.0",
-    "sharp": "^0.35.4",
-    "typescript": "^6.0.3"
+    "sharp": "^0.35.5",
+    "typescript": "6.0.3"
   },
   "devDependencies": {
-    "@iconify-json/tabler": "^1.2.38",
-    "@playwright/test": "^1.63.0",
-    "@types/node": "^25.9.5"
+    "@iconify-json/tabler": "^1.2.42",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^25.9.9"
   }
 }
