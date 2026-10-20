@@ -1,0 +1,39 @@
+---
+import { Icon } from "astro-icon/components";
+import type { InferEntrySchema } from "astro:content";
+
+interface Props {
+	thing: InferEntrySchema<"things">;
+}
+
+const { thing } = Astro.props;
+
+function getRecommendationIcons(recommendation: number): [string, string] {
+	if (recommendation < 1) {
+		return ["tabler:half-star", "tabler:star"];
+	} else if (recommendation < 2) {
+		return ["tabler:star-filled", "tabler:star"];
+	} else {
+		return ["tabler:star-filled", "tabler:star-filled"];
+	}
+}
+
+function getRecommendationText(recommendation: number): string {
+	if (recommendation < 1) {
+		return "Mixed";
+	} else if (recommendation < 2) {
+		return "Recommended";
+	} else {
+		return "Highly Recommended";
+	}
+}
+---
+<h3>{thing.type} / {thing.title}</h3>
+<p class="thing-rating">
+	{
+		getRecommendationIcons(thing.recommendation)
+			.map((icon) => <Icon name={icon}/>)
+	}
+	&nbsp;{ getRecommendationText(thing.recommendation) }
+</p>
+<p>{thing.description}</p>

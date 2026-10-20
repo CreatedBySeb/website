@@ -41,11 +41,20 @@ const projectsCollection = defineCollection({
 const thoughtsCollection = defineCollection({
 	loader: glob({ pattern: "**/*.mdx", base: "./src/content/thoughts" }),
 	schema: () => baseSchema.extend({}),
-})
+});
+
+const thingsCollection = defineCollection({
+	loader: glob({ pattern: "**/*.toml", base: "./src/content/things-ive" }),
+	schema: () => baseSchema.omit({ tags: true }).extend({
+		type: z.enum(["read", "played"]),
+		recommendation: z.int().min(0).max(2),
+	}),
+});
 
 export const collections = {
     games: gamesCollection,
     projects: projectsCollection,
 	tags: tagsCollection,
+	things: thingsCollection,
 	thoughts: thoughtsCollection,
 };

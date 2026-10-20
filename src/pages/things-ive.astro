@@ -1,0 +1,35 @@
+---
+import Thing from "@components/Thing.astro";
+import Layout from "@layouts/Layout.astro";
+import { sortByDate } from "@lib/util";
+import { getCollection } from "astro:content";
+
+const things = sortByDate(await getCollection("things"));
+---
+
+<Layout title="things I've ...">
+	<section>
+		<h1>things I've...</h1>
+		<p>
+			Things I've read or played recently that I enjoyed and wanted to share. Mixed means it may be worthwhile if it piques your interest but can be missed, Recommended means I think it's generally worthwhile and is worth checking out, and Highly Recommended means it made a very strong impression on me and I feel it would be worthwhile for anyone to experience.
+		</p>
+
+		{
+			things.map((thing) => {
+				return <article class="thing">
+					<Thing thing={thing.data} />
+				</article>
+			})
+		}
+	</section>
+</Layout>
+
+<style>
+	.thing {
+		margin: 2rem 0;
+
+		& h3, p {
+			margin: 0.5rem 0;
+		}
+	}
+</style>
