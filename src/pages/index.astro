@@ -52,15 +52,6 @@ const recentThings = sortByDate(await getCollection("things")).slice(0, 5);
 		<p>While in Trinity, I won the Trinity Legacy Award for my work improving accessibility on campus, <a href={gwrLink}>set a world record for the longest marathon debate with the Hist</a>, <a href={stormontLink}>represented Trinity in a debate at the Northern Irish Assembly in Stormont</a>, helped organise the 2023 World Universities Debating Championships in Madrid, and built my own Software-as-a-Service platform for running debate competitions, <a href="/projects/tabtastic">Tabtastic</a>.</p>
 	</section>
 
-	<section class="things">
-		<h2><a href="/things-ive">things I've ...</a></h2>
-		<ul>
-			{recentThings.map(async (thing) => {
-				return <li><Thing thing={thing.data} /></li>
-			})}
-		</ul>
-	</section>
-
 	<section class="recent-items">
 		<h2>recent items (<code>tail -n 5</code>)</h2>
 		<ul>
@@ -79,6 +70,14 @@ const recentThings = sortByDate(await getCollection("things")).slice(0, 5);
 		</ul>
 	</section>
 
+	<section class="things">
+		<h2><a href="/things-ive">things I've ...</a></h2>
+		<ul>
+			{recentThings.map(async (thing) => {
+				return <li><Thing thing={thing.data} /></li>
+			})}
+		</ul>
+	</section>
 </Layout>
 
 <style>
