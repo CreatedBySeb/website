@@ -40,8 +40,8 @@ importers:
         version: 6.0.3
     devDependencies:
       '@iconify-json/tabler':
-        specifier: ^1.2.44
-        version: 1.2.44
+        specifier: ^1.2.46
+        version: 1.2.46
       '@playwright/test':
         specifier: ^1.65.0
         version: 1.65.0
@@ -347,8 +347,8 @@ packages:
   '@expressive-code/plugin-text-markers@0.44.3':
     resolution: {integrity: sha512-4Ae2xRSDV5kdWPsi40xWbOtoihbzM0zLVjQKkDAnD5KzFXl+6/kd+VhuWOlTRVaJ5cqGk++vCbAaf0MR1XbZlw==}
 
-  '@iconify-json/tabler@1.2.44':
-    resolution: {integrity: sha512-IsuUHpY2CYP3Tmq3tkJlfJbPEp+ASe4nAfUfguCXZLTCCqgb2jMQ4A7QQVacQCdVYu9my37YF/n84OLyx2hJ6g==}
+  '@iconify-json/tabler@1.2.46':
+    resolution: {integrity: sha512-iyEZEUhHV4x1ZbNzzjk3i6Z+MH5h5nXipqKaH7+bUlnoQwzn7fNjWRSqwWtwQ4PYN6WM+N/fLQC/48TRto26qQ==}
 
   '@iconify/tools@5.0.14':
     resolution: {integrity: sha512-wJ4ZE3/HZh2iBqLwG+8FOMHe7CMJAJqwSXZSpPwMdj1gZM3Z4t2hbQMVw4Vm45oQ985qn0g89PUIcDEdKTheBA==}
@@ -2162,7 +2162,7 @@ snapshots:
     dependencies:
       '@expressive-code/core': 0.44.3
 
-  '@iconify-json/tabler@1.2.44':
+  '@iconify-json/tabler@1.2.46':
     dependencies:
       '@iconify/types': 2.0.0
 
